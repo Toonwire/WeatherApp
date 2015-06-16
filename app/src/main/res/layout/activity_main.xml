@@ -37,7 +37,9 @@
             android:background="@drawable/roundButton"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"/>
 
     </RelativeLayout>
 
@@ -91,41 +93,70 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:columnCount="4"
+            android:columnCount="3"
             android:rowCount="2"
             android:orientation="horizontal"
             android:layout_marginBottom="5dp">
 
-            <!-- Temperature Icon -->
-            <ImageView
-                android:id="@+id/data_view_temperature_icon"
+            <GridLayout
+                android:id="@+id/temperature_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/temperature_icon"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:contentDescription="@string/temperature_description" />
+                android:columnCount="2"
+                android:rowCount="1"
+                android:orientation="horizontal" >
 
-            <!-- Temperature -->
-            <TextView
-                android:id="@+id/data_view_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:text="@string/temperature"
-                android:textColor="#FFFFFF" />
+                <!-- Temperature Icon -->
+                <ImageView
+                    android:id="@+id/data_view_temperature_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+
+                    android:layout_column="1"
+                    android:layout_row="1"
+                    android:contentDescription="@string/temperature_description" />
+
+                <!-- Temperature -->
+                <TextView
+                    android:id="@+id/data_view_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:layout_row="1"
+                    android:textSize="25sp"
+                    android:text="@string/temperature"
+                    android:textColor="#FFFFFF" />
+
+            </GridLayout>
+
 
             <!-- Wind icon -->
             <ImageView
                 android:id="@+id/data_view_wind_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/wind_icon"
+                android:src="@drawable/wind_direction"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/wind_description" />
 
-            <!-- Wind and wind_icon direction -->
+            <!-- Wind direction icon -->
+            <ImageView
+                android:id="@+id/data_view_wind_direction_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/wind_direction"
+                android:layout_column="1"
+                android:layout_row="2"
+                android:contentDescription="@string/wind_description" />
+
+            <!-- Wind -->
             <TextView
                 android:id="@+id/data_view_wind"
                 android:layout_width="wrap_content"
@@ -134,6 +165,8 @@
                 android:text="@string/wind_speed"
                 android:textColor="#FFFFFF"
                 android:layout_marginStart="10dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:layout_marginLeft="10dp"/>
 
             <!-- Sunrise icon -->
@@ -141,9 +174,11 @@
                 android:id="@+id/data_view_sunrise_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sunrise_icon"
+                android:src="@drawable/sunrise"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/sunrise_description" />
 
             <!-- Sunrise -->
@@ -155,16 +190,20 @@
                 android:text="@string/time_of_sunrise"
                 android:textColor="#FFFFFF"
                 android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_column="0"
+                android:layout_row="1" />
 
             <!-- Sunset icon -->
             <ImageView
                 android:id="@+id/data_view_sunset_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sunset_icon"
+                android:src="@drawable/sunset"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/sunset_description" />
 
             <!-- Sunset -->
@@ -175,6 +214,8 @@
                 android:textSize="18sp"
                 android:text="@string/time_of_sunset"
                 android:textColor="#FFFFFF"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"/>
 
@@ -183,9 +224,11 @@
                 android:id="@+id/data_view_rain_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rain_icon"
+                android:src="@drawable/rain"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/rain_description" />
 
             <!-- Rain -->
@@ -197,6 +240,8 @@
                 android:text="@string/rain_amount"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:textColor="#FFFFFF"/>
 
             <!-- Pressure Icon -->
@@ -204,9 +249,11 @@
                 android:id="@+id/data_view_pressure_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/pressure_icon"
+
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/pressure_description" />
 
             <!-- Pressure -->
@@ -218,6 +265,8 @@
                 android:text="@string/pressure_amount"
                 android:textColor="#FFFFFF"
                 android:layout_marginLeft="30dp"
+                android:layout_column="1"
+                android:layout_row="2"
                 android:layout_marginStart="30dp" />
 
             <!-- Humidity Icon -->
@@ -227,7 +276,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginStart="15dp"
-                android:src="@drawable/humidity_icon"
+
+                android:layout_column="1"
+                android:layout_row="2"
                 android:contentDescription="@string/humidity_description"/>
 
             <!-- Humidity -->
@@ -239,7 +290,9 @@
                 android:text="@string/humidity_amount"
                 android:textColor="#FFFFFF"
                 android:layout_marginLeft="30dp"
-                android:layout_marginStart="30dp"/>
+                android:layout_marginStart="30dp"
+                android:layout_column="1"
+                android:layout_row="2" />
 
         </GridLayout>
     </RelativeLayout>
