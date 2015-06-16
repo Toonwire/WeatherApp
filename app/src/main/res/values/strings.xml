@@ -18,4 +18,5 @@
     <string name="pressure_description">Pressure Icon</string>
     <string name="humidity_description">Humidity Icon</string>
     <string name="temperature_description">Temperature Icon</string>
+    <string name="text_example">Text example</string>
 </resources>
