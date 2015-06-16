@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:text="x"
             android:textColor="#FFFFFF"
-            android:background="@drawable/close_roundButton"
+            android:background="@drawable/round_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
