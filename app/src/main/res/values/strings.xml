@@ -6,7 +6,7 @@
     <string name="wind_speed">4.3 m/s</string>
     <string name="time_of_sunrise">04:12</string>
     <string name="time_of_sunset">22:01</string>
-    <string name="rain_amount">3mm</string>
+    <string name="rain_amount">0mm</string>
     <string name="pressure_amount">1022 hPa</string>
     <string name="humidity_amount">62%</string>
     <string name="sunrise_description">Sunrise Icon</string>
