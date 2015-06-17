@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#00274d">
+    android:background="#22313f">
 
     <!-- top layout, containing title and locations exit button (x) -->
 
@@ -40,7 +40,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/main_view"
+        android:id="@+id/locations_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
@@ -51,7 +51,7 @@
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/list"
+            android:id="@+id/locations_list"
             android:layout_alignParentTop="true" />
 
     </RelativeLayout>

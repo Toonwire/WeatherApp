@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
 
-    android:background="#00274d"
+    android:background="#22313f"
     android:orientation="vertical" >
 
     <!-- top layout, containing title and settings exit button (x) -->
@@ -127,7 +127,7 @@
             android:id="@+id/metric_radio_button"
             android:layout_below="@+id/unit_text"
             android:textColor="#FFFFFF"
-            android:buttonTint="FFFFFF"
+            android:buttonTint="#FFFFFF"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
@@ -168,8 +168,7 @@
             android:layout_below="@+id/locations_text"
             android:layout_alignLeft="@+id/locations_text"
             android:layout_alignStart="@+id/locations_text"
-            android:layout_marginTop="30dp" />
-
+            android:layout_marginTop="10dp" />
 
     </RelativeLayout>
 </LinearLayout>
