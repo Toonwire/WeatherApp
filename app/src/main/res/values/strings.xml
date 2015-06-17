@@ -6,7 +6,7 @@
     <string name="wind_speed">4.3 m/s</string>
     <string name="time_of_sunrise">04:12</string>
     <string name="time_of_sunset">22:01</string>
-    <string name="rain_amount">0mm</string>
+    <string name="rain_amount">3mm</string>
     <string name="pressure_amount">1022 hPa</string>
     <string name="humidity_amount">62%</string>
     <string name="sunrise_description">Sunrise Icon</string>
@@ -40,4 +40,12 @@
     <string name="wind_speed_day4">1.7 m/s</string>
     <string name="wind_speed_day5">2.6 m/s</string>
     <string name="location_name">Helsingør</string>
+    <string name="deg_day3">18°C</string>
+    <string name="locations_title">Locations</string>
+    <string name="manage_locations_button">Manage locations</string>
+    <string name="imperial_radiobutton">Imperial</string>
+    <string name="metric_radiobutton">Metric</string>
+    <string name="unit_title">Unit</string>
+    <string name="humidity_title">Humidity</string>
+    <string name="rain_title">Rain</string>
 </resources>
