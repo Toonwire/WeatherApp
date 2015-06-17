@@ -11,5 +11,6 @@ public class Settings extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+
     }
 }
