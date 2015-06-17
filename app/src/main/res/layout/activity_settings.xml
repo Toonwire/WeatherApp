@@ -127,7 +127,7 @@
             android:id="@+id/metric_radio_button"
             android:layout_below="@+id/unit_text"
             android:textColor="#FFFFFF"
-            android:buttonTint="FFFFFF"
+            android:buttonTint="#FFFFFF"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="10dp"
