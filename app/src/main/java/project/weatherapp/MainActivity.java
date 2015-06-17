@@ -87,8 +87,19 @@ public class MainActivity extends Activity {
     DecimalFormat df = new DecimalFormat("#.00");
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // the format of your date
 
-    public enum UnitSystem{
-        METRIC, IMPERIAL
+    public enum UnitSystem {
+        METRIC, IMPERIAL;
+
+        // TODO
+
+        public static UnitSystem StringToEnum (String myEnumString) {
+            try {
+                return valueOf(myEnumString);
+            } catch (Exception ex) {
+                // For error cases
+                return METRIC;
+            }
+        }
     }
 
     UnitSystem settingsUnitSystem = UnitSystem.METRIC;

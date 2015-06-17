@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rain_switch"
-            android:checked="false"
+            android:checked="true"
             android:textColor="#FFFFFF"
             android:layout_below="@+id/rain_text" />
 
@@ -112,9 +112,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/humidity_switch"
-            android:checked="false"
+            android:checked="true"
             android:textColor="#FFFFFF"
             android:layout_below="@+id/humidity_text" />
+
+        <!-- Pressure -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/pressure_title"
+            android:id="@+id/pressure_text"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/humidity_switch"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" />
+
+        <!-- Switch til pressure -->
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pressure_switch"
+            android:checked="true"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/pressure_text" />
 
         <!-- Units -->
 
@@ -125,7 +149,7 @@
             android:text="@string/unit_title"
             android:id="@+id/unit_text"
             android:textColor="#FFFFFF"
-            android:layout_below="@+id/humidity_switch"
+            android:layout_below="@+id/pressure_switch"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="30dp"
