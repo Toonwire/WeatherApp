@@ -48,4 +48,5 @@
     <string name="unit_title">Unit</string>
     <string name="humidity_title">Humidity</string>
     <string name="rain_title">Rain</string>
+    <string name="settings_title">Settings</string>
 </resources>

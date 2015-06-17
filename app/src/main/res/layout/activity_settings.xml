@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="Settings"
+            android:text="@string/settings_title"
             android:textColor="#FFFFFF"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -148,12 +148,8 @@
                 android:id="@+id/metric_radio_button"
                 android:textColor="#FFFFFF"
                 android:buttonTint="#FFFFFF"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:checked="false" />
-                />/>
-
 
         <!-- Ændrer unit til imperial -->
 
@@ -164,8 +160,6 @@
                 android:id="@+id/imperial_radio_button"
                 android:textColor="#FFFFFF"
                 android:buttonTint="#FFFFFF"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_marginTop="10dp"
                 android:checked="false" />
 
