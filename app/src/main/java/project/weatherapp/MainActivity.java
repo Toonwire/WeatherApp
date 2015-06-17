@@ -2,11 +2,16 @@ package project.weatherapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +38,6 @@ public class MainActivity extends Activity {
     private static final String TAG_HUMIDITY = "humidity";
 
     private static final String TAG_SYS = "sys";
-    private static final String TAG_COUNTRY = "country";
     private static final String TAG_SUNRISE = "sunrise";
     private static final String TAG_SUNSET = "sunset";
 
@@ -49,7 +53,6 @@ public class MainActivity extends Activity {
     private static final String TAG_CITY = "name";
 
     private String id;
-    private String country;
     private String city;
     private String temperature;
     private String pressure;
@@ -120,11 +123,23 @@ public class MainActivity extends Activity {
         imWeatherIcon = (ImageView) findViewById(R.id.main_weather_image);
 
         // Set by location in smartphone
-        url = "http://api.openweathermap.org/data/2.5/weather?q=Aalborg,dk";
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formating (see comment at the bottom
+        url = "http://api.openweathermap.org/data/2.5/weather?q=Berlin,de";
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
 
         new GetWeatherToday().execute();
     }
+
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//        AddArticleActivity.DISPLAYROTATION = display.getRotation();
+//        if (youractivity.DISPLAYROTATION == Surface.ROTATION_90 || MainActivity.DISPLAYROTATION == Surface.ROTATION_270) {
+//            do LANDSCAPE;
+//        } else {
+//            do PORTRAIT;
+//        }
+//
+//    }
 
     /**
      * Async task class to get json by making HTTP call
@@ -162,7 +177,6 @@ public class MainActivity extends Activity {
                     city = jsonObj.getString(TAG_CITY);
 
                     JSONObject todaysSysResources = jsonObj.getJSONObject(TAG_SYS);
-                    country = todaysSysResources.getString(TAG_COUNTRY);
                     sunrise = todaysSysResources.getString(TAG_SUNRISE);
                     sunset = todaysSysResources.getString(TAG_SUNSET);
 
@@ -213,7 +227,6 @@ public class MainActivity extends Activity {
             date = new Date(unixSeconds*1000L);
             String sunsetTime = sdf.format(date);
 
-            Log.d("testingss", id);
             tvCity.setText(city);
             tvSunrise.setText(sunriseTime);
             tvSunset.setText(sunsetTime);
