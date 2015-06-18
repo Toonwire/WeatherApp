@@ -52,4 +52,15 @@
     <string name="pressure_title">Pressure</string>
     <string name="add_location">Add location</string>
     <string name="sunriseset_title">Sunrise and sunset</string>
+
+    <string-array name="listdata">
+        <item>item 1</item>
+        <item>item 2</item>
+        <item>item 3</item>
+        <item>item 4</item>
+        <item>item 5</item>
+
+    </string-array>
+
+
 </resources>

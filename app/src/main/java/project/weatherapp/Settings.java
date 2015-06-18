@@ -27,8 +27,6 @@ public class Settings extends MainActivity {
 //    private boolean sunriseset;
 //    private UnitSystem unitSystem;
 
-//    MainActivity main = new MainActivity();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,8 +164,8 @@ public class Settings extends MainActivity {
     }
 
     public void goToManageLocations() {
-        // TODO start Locations with array of all locations
-        Intent intent = new Intent(Settings.this,Locations.class);
+        // TODO start LocationsActivity with array of all locations
+        Intent intent = new Intent(Settings.this,LocationsActivity.class);
         startActivity(intent);
     }
 }
