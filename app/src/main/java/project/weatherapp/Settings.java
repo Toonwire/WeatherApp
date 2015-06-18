@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.CompoundButton;
 
 public class Settings extends MainActivity {
 
@@ -20,6 +19,7 @@ public class Settings extends MainActivity {
     private RadioGroup rgGroup;
     private RadioButton rbMetric;
     private RadioButton rbImperial;
+    private Button closeButton;
 
 //    private boolean rain;
 //    private boolean humidity;
@@ -46,7 +46,15 @@ public class Settings extends MainActivity {
 
         btManageLocation = (Button) findViewById(R.id.manage_location);
 
+        closeButton = (Button) findViewById(R.id.settings_close_button);
 
+        closeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         // Restore preferences
         SharedPreferences settings = getSharedPreferences("SETTINGS", 0);
@@ -122,9 +130,11 @@ public class Settings extends MainActivity {
         super.onResume();
     }
 
+
+
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         SharedPreferences settings = getSharedPreferences("SETTINGS", 0);

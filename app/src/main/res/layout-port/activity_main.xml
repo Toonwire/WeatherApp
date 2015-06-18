@@ -75,8 +75,7 @@
             android:scaleType="fitXY"
             android:layout_marginTop="81dp"
             android:layout_below="@+id/date_text"
-            android:layout_alignLeft="@+id/city_name"
-            android:layout_alignStart="@+id/city_name" />
+            android:layout_centerInParent="true"/>
 
         <!-- CITY NAME -->
         <TextView

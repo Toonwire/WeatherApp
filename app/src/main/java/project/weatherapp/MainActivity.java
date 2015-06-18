@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,10 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends Activity {
+
+    // DEBUGGING
+    private boolean debugging = true;
+
 
     private ProgressDialog pDialog;
 
@@ -111,11 +116,11 @@ public class MainActivity extends Activity {
     }
 
     private UnitSystem settingsUnitSystem = UnitSystem.METRIC;
-    private  boolean settingsRain = true;
-    private boolean settingHumidity = true;
-    private boolean settingPressure = true;
-    private boolean settingsWind = true;
-    private boolean settingsSunriseSet = true;
+    private boolean settingsRain = false;
+    private boolean settingsHumidity = false;
+    private boolean settingsPressure = false;
+    private boolean settingsWind = false;
+    private boolean settingsSunriseSet = false;
 
     private Button settingsButton;
 
@@ -124,6 +129,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         tvTemperature = (TextView) findViewById(R.id.data_view_temperature);
@@ -153,30 +159,8 @@ public class MainActivity extends Activity {
         }
         // Get best last location measurement
         location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        // Display last reading information
-        if (null != location) {
-            Log.i("TESTING",location.getLongitude() + " --- " + location.getLatitude());
-            url = "http://api.openweathermap.org/data/2.5/weather?lat="+location.getLatitude()+"&lon="+location.getLongitude();
-            sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
-        } else {
-            Log.i("TESTING","No Initial Reading Available");
-        }
-
-        // Set by location in smartphone
-//        url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk";
-
-        // setup current weather from data extracted from the API
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.d("testing123", "portrait-mode working");
-            new GetWeatherToday().execute();
-        }
-        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("testing123", "landscape-mode working");
-//            new GetWeatherForecast().execute();
-        }
 
         settingsButton = (Button) findViewById(R.id.settings_button);
-
         settingsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -188,22 +172,59 @@ public class MainActivity extends Activity {
         });
     }
 
-
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("orientationTest", "landscape");
-        }
-        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.d("orientationTest", "portrait");
+    public void onResume(){
+        super.onResume();
+        loadSettings();
+
+        // Display last reading information
+        if (null != location) {
+            Log.i("TESTING",location.getLongitude() + " --- " + location.getLatitude());
+            url = "http://api.openweathermap.org/data/2.5/weather?lat="+location.getLatitude()+"&lon="+location.getLongitude()+ "&units="
+                    + settingsUnitSystem.toString();
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
+        } else {
+            Log.i("TESTING","No Initial Reading Available");
         }
 
+        if (debugging)
+            url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&units=metric";
+
+        // setup current weather from data extracted from the API
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d("testing123", "portrait-mode working");
+            new GetWeatherToday().execute();
+        }
+        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("testing123", "landscape-mode working");
+//            new GetWeatherForecast().execute();
+        }
+
+    }
+
+
+    private void loadSettings(){
+        SharedPreferences settings = getSharedPreferences("SETTINGS", 0);
+
+        settingsRain = settings.getBoolean("rain", false);
+        settingsHumidity = settings.getBoolean("humidity", false);
+        settingsWind = settings.getBoolean("pressure", false);
+        settingsSunriseSet = settings.getBoolean("sunriseset", false);
+
+        switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
+            case METRIC:
+                settingsUnitSystem = UnitSystem.METRIC;
+                break;
+            case IMPERIAL:
+                settingsUnitSystem = UnitSystem.IMPERIAL;
+                break;
+        }
     }
 
     /**
      * Async task class to get json by making HTTP call
      * */
+
     private class GetWeatherToday extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -290,11 +311,10 @@ public class MainActivity extends Activity {
             tvCity.setText(city);
             tvSunrise.setText(sunriseTime);
             tvSunset.setText(sunsetTime);
-            tvWindSpeed.setText(df.format(Double.parseDouble(windSpeed)) + "m/s");
-            if (rain != null)
-                tvRain.setText(df.format(Double.parseDouble(rain)) + "mm");
-            tvTemperature.setText(df.format(Double.parseDouble(temperature) - 273.15) + "°C");
-            tvPressure.setText(Integer.parseInt(pressure) + " hPa");
+            tvWindSpeed.setText(getWindSpeedAndUnit());
+            tvRain.setText(getRainAndUnit());
+            tvTemperature.setText(getTemperatureAndUnit());
+            tvPressure.setText(getPressureAndUnit());
             tvHumidity.setText(humidity + "%");
 
             imWindDirection.setRotation(Float.parseFloat(windDeg));
@@ -389,6 +409,33 @@ public class MainActivity extends Activity {
             imWeatherIcon.setImageBitmap(mBitmap);
 
         }
+
+        private String getRainAndUnit() {
+            if (rain != null)
+                return df.format(Double.parseDouble(rain)) + "mm";
+            return "No rain";
+        }
+
+        private String getPressureAndUnit() {
+            if (settingsUnitSystem == UnitSystem.METRIC){
+                return Integer.parseInt(pressure) + "hPa";
+            }
+            return df.format(Integer.parseInt(pressure)*0.0145037737955) + "psi";
+        }
+
+        private String getTemperatureAndUnit() {
+            if (settingsUnitSystem == UnitSystem.METRIC)
+                return temperature + "°C";
+            return temperature + "°F";
+        }
+
+        private String getWindSpeedAndUnit() {
+            if (settingsUnitSystem == UnitSystem.METRIC)
+                return windSpeed + " m/s";
+            return windSpeed + " mph";
+        }
+
+
         // checks if the current time is within the day time interval, created by sunrise and sunset
         private boolean day(){
             return Integer.parseInt(sunrise) < Integer.parseInt(dt) && Integer.parseInt(dt) < Integer.parseInt(sunset);
