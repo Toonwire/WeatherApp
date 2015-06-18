@@ -14,6 +14,7 @@
     <string name="wind_description">Wind Icon</string>
     <string name="real_time">20:22</string>
     <string name="settings_button_i">i</string>
+    <string name="settings_button_x">x</string>
     <string name="rain_description">Rain Icon</string>
     <string name="pressure_description">Pressure Icon</string>
     <string name="humidity_description">Humidity Icon</string>
@@ -48,5 +49,7 @@
     <string name="humidity_title">Humidity</string>
     <string name="rain_title">Rain</string>
     <string name="settings_title">Settings</string>
-    <string name="settings_name">Settings</string>
+    <string name="pressure_title">Pressure</string>
+    <string name="add_location">Add location</string>
+    <string name="sunriseset_title">Sunrise and sunset</string>
 </resources>

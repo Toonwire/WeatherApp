@@ -15,7 +15,7 @@ public class Settings extends MainActivity {
     private Switch swRain;
     private Switch swHumidity;
     private Switch swPressure;
-    private Switch swSunriseSet;
+    private Switch swSunriseset;
     private Button btManageLocation;
     private RadioGroup rgGroup;
     private RadioButton rbMetric;
@@ -24,7 +24,7 @@ public class Settings extends MainActivity {
 //    private boolean rain;
 //    private boolean humidity;
 //    private boolean pressure;
-//    private boolean sunriseSet;
+//    private boolean sunriseset;
 //    private UnitSystem unitSystem;
 
 //    MainActivity main = new MainActivity();
@@ -38,7 +38,7 @@ public class Settings extends MainActivity {
         swRain = (Switch) findViewById(R.id.rain_switch);
         swHumidity = (Switch) findViewById(R.id.humidity_switch);
         swPressure = (Switch) findViewById(R.id.pressure_switch);
-//        sunriseSet = (Switch) findViewById(R.id.)
+        swSunriseset = (Switch) findViewById(R.id.sunriseset_switch);
 
         rgGroup = (RadioGroup) findViewById(R.id.unit_radio_group);
         rbMetric = (RadioButton) findViewById(R.id.metric_radio_button);
@@ -53,7 +53,7 @@ public class Settings extends MainActivity {
         swRain.setChecked(settings.getBoolean("rain", false));
         swHumidity.setChecked(settings.getBoolean("humidity", false));
         swPressure.setChecked(settings.getBoolean("pressure", false));
-        swSunriseSet.setChecked(settings.getBoolean("sunriseset", false));
+        swSunriseset.setChecked(settings.getBoolean("sunriseset", false));
 
         switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
             case METRIC:
@@ -115,9 +115,6 @@ public class Settings extends MainActivity {
                 goToManageLocations();
             }
         });
-
-        // TODO add listeners for all attributes
-
     }
 
     @Override
@@ -135,7 +132,7 @@ public class Settings extends MainActivity {
         editor.putBoolean("rain", swRain.isChecked());
         editor.putBoolean("humidity", swHumidity.isChecked());
         editor.putBoolean("pressure", swPressure.isChecked());
-        editor.putBoolean("sunriseset", swSunriseSet.isChecked());
+        editor.putBoolean("sunriseset", swSunriseset.isChecked());
         editor.putString("unit", getUnit().toString());
 
         // Commit the edits!
