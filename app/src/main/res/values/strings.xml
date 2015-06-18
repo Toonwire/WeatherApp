@@ -27,7 +27,6 @@
     <string name="date_day2">June 16</string>
     <string name="deg_day2">22° C</string>
     <string name="date_day3">June 17</string>
-    <string name="deg_day3">18° C</string>
     <string name="day_day4">Thu</string>
     <string name="date_day4">June 18</string>
     <string name="deg_day4">23° C</string>
@@ -39,7 +38,7 @@
     <string name="wind_speed_day3">2.4 m/s</string>
     <string name="wind_speed_day4">1.7 m/s</string>
     <string name="wind_speed_day5">2.6 m/s</string>
-    <string name="location_name">Helsingør</string>
+    <string name="location_name">Placeholder</string>
     <string name="deg_day3">18°C</string>
     <string name="locations_title">Locations</string>
     <string name="manage_locations_button">Manage locations</string>
@@ -49,4 +48,5 @@
     <string name="humidity_title">Humidity</string>
     <string name="rain_title">Rain</string>
     <string name="settings_title">Settings</string>
+    <string name="settings_name">Settings</string>
 </resources>

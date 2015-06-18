@@ -19,8 +19,8 @@ public class Settings extends MainActivity {
     private RadioGroup group;
 
     @Override
-    protected void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         rain = (Switch) findViewById(R.id.rain_switch);

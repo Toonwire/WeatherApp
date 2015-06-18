@@ -2,16 +2,15 @@ package project.weatherapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
-import android.view.Surface;
-import android.view.WindowManager;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -91,12 +90,15 @@ public class MainActivity extends Activity {
         METRIC, IMPERIAL
     }
 
-    UnitSystem settingsUnitSystem = UnitSystem.METRIC;
-    boolean settingsRain = true;
-    boolean settingHumidity = true;
-    boolean settingPressure = true;
-    boolean settingsWind = true;
-    boolean settingsSunriseSet = true;
+    private UnitSystem settingsUnitSystem = UnitSystem.METRIC;
+    private  boolean settingsRain = true;
+    private boolean settingHumidity = true;
+    private boolean settingPressure = true;
+    private boolean settingsWind = true;
+    private boolean settingsSunriseSet = true;
+
+    private Button settingsButton;
+
 
 
     @Override
@@ -123,23 +125,44 @@ public class MainActivity extends Activity {
         imWeatherIcon = (ImageView) findViewById(R.id.main_weather_image);
 
         // Set by location in smartphone
-        url = "http://api.openweathermap.org/data/2.5/weather?q=Berlin,de";
+        url = "http://api.openweathermap.org/data/2.5/weather?q=Frederikssund,dk";
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
 
-        new GetWeatherToday().execute();
+        // setup current weather from data extracted from the API
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d("testing123", "portrait-mode working");
+            new GetWeatherToday().execute();
+        }
+        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("testing123", "landscape-mode working");
+//            new GetWeatherForecast().execute();
+        }
+
+        settingsButton = (Button) findViewById(R.id.settings_button);
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent settingsIntent = new Intent(MainActivity.this, Settings.class);
+                Log.d("testing123", "settings button working");
+                startActivity(settingsIntent);
+            }
+        });
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-//        AddArticleActivity.DISPLAYROTATION = display.getRotation();
-//        if (youractivity.DISPLAYROTATION == Surface.ROTATION_90 || MainActivity.DISPLAYROTATION == Surface.ROTATION_270) {
-//            do LANDSCAPE;
-//        } else {
-//            do PORTRAIT;
-//        }
-//
-//    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("orientationTest", "landscape");
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d("orientationTest", "portrait");
+        }
+
+    }
 
     /**
      * Async task class to get json by making HTTP call
@@ -195,7 +218,7 @@ public class MainActivity extends Activity {
 
                     JSONObject todaysRainResources = jsonObj.getJSONObject(TAG_RAIN);
                     rain = todaysRainResources.getString(TAG_3H);
-
+                    Log.d("tagtest", rain);
 
 
                 } catch (JSONException e) {
