@@ -45,19 +45,38 @@
 
     <RelativeLayout
         android:id="@+id/locations_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:weightSum="1">
 
+        <Button android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_location"
+            android:text="@string/add_location"
+            android:layout_alignParentBottom="true" />
+
         <!-- Liste af alle locations -->
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/locations_list"
-            android:layout_alignParentTop="true" />
+        <TextView
+            android:id="@+id/list_item_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="8dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:text="Delete" />
 
     </RelativeLayout>
 </LinearLayout>
