@@ -28,19 +28,6 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" />
 
-       <!-- Button til at komme ud af locations og ind i settings igen -->
-
-        <Button
-            android:id="@+id/locations_close_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:text="x"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/round_button"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -51,12 +38,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:weightSum="1">
-
-        <Button android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_location"
-            android:text="@string/add_location"
-            android:layout_alignParentBottom="true" />
 
         <!-- Liste af alle locations -->
 
