@@ -2,10 +2,14 @@ package project.weatherapp;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +55,7 @@ public class MainActivity extends Activity {
 
     private static final String TAG_CITY = "name";
 
-    private String id;
+    private int weatherID;
     private String city;
     private String temperature;
     private String pressure;
@@ -83,13 +87,18 @@ public class MainActivity extends Activity {
     private ImageView imRain;
     private ImageView imWeatherIcon;
 
+    // Reference to the LocationManager and LocationListener
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
+    // Current best location estimate
+    private Location location;
+
     DecimalFormat df = new DecimalFormat("#.00");
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // the format of your date
 
     public enum UnitSystem {
         METRIC, IMPERIAL;
-
-        // TODO
 
         public static UnitSystem StringToEnum (String myEnumString) {
             try {
@@ -135,9 +144,26 @@ public class MainActivity extends Activity {
         imRain = (ImageView) findViewById(R.id.data_view_rain_icon);
         imWeatherIcon = (ImageView) findViewById(R.id.main_weather_image);
 
+
+        // Acquire reference to the LocationManager
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager == null) {
+            Log.i("TESTING","No location found.");
+            finish();
+        }
+        // Get best last location measurement
+        location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        // Display last reading information
+        if (null != location) {
+            Log.i("TESTING",location.getLongitude() + " --- " + location.getLatitude());
+            url = "http://api.openweathermap.org/data/2.5/weather?lat="+location.getLatitude()+"&lon="+location.getLongitude();
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
+        } else {
+            Log.i("TESTING","No Initial Reading Available");
+        }
+
         // Set by location in smartphone
-        url = "http://api.openweathermap.org/data/2.5/weather?q=Frederikssund,dk";
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
+//        url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk";
 
         // setup current weather from data extracted from the API
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -216,7 +242,7 @@ public class MainActivity extends Activity {
 
                     JSONArray todaysWeatherResources = jsonObj.getJSONArray(TAG_WEATHER);
                     JSONObject todaysWeather = todaysWeatherResources.getJSONObject(0);
-                    id = todaysWeather.getString(TAG_ID);
+                    weatherID = Integer.parseInt(todaysWeather.getString(TAG_ID));
 
                     JSONObject todaysMainResources = jsonObj.getJSONObject(TAG_MAIN);
                     temperature = todaysMainResources.getString(TAG_TEMPERATURE);
@@ -275,113 +301,89 @@ public class MainActivity extends Activity {
 
             Bitmap mBitmap = null;
 
-            switch(id){
-                case "200":
-                case "201":
-                case "202":
-                case "210":
-                case "211":
-                case "212":
-                case "221":
-                case "230":
-                case "231":
-                case "232":
-
+            switch(weatherID){
+                case 200:
+                case 201:
+                case 202:
+                case 210:
+                case 211:
+                case 212:
+                case 221:
+                case 230:
+                case 231:
+                case 232:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.thunder);
                     break;
-
-                case "300":
-                case "301":
-                case "302":
-                case "310":
-                case "311":
-                case "312":
-                case "321":
-                case "511":
-                case "520":
-                case "521":
-                case "522":
-
+                case 300:
+                case 301:
+                case 302:
+                case 310:
+                case 311:
+                case 312:
+                case 321:
+                case 511:
+                case 520:
+                case 521:
+                case 522:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.rain);
                     break;
-
-                case "500":
-                case "501":
-                case "502":
-                case "503":
-                case "504":
-
+                case 500:
+                case 501:
+                case 502:
+                case 503:
+                case 504:
                     if (day())
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.day_rain);
-
                     else
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.night_rain);
-
                     break;
-
-                case "600":
-                case "601":
-                case "602":
-                case "611":
-                case "615":
-                case "616":
-                case "621":
-
+                case 600:
+                case 601:
+                case 602:
+                case 611:
+                case 615:
+                case 616:
+                case 621:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.snow);
                     break;
-
-                case "701":
-                case "711":
-                case "721":
-                case "731":
-                case "741":
-
+                case 701:
+                case 711:
+                case 721:
+                case 731:
+                case 741:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mist);
                     break;
-
-                case "800":
-
+                case 800:
                     if (day())
-                       mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sun);
-
+                        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sun);
                     else
-                       mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.moon);
-
+                        mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.moon);
                     break;
-
-                case "801":
-
+                case 801:
                     if (day())
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.few_clouds_day);
                     else
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.few_clouds_night);
-
                     break;
-
-                case "802":
-                case "803":
-                case "804":
-
+                case 802:
+                case 803:
+                case 804:
                     if (day())
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.clouds);
                     else
                         mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.clouds);
-
                     break;
-
-                case "900":
-                case "901":
-                case "902":
-                case "903":
-                case "904":
-                case "905":
-                case "906":
+                case 900:
+                case 901:
+                case 902:
+                case 903:
+                case 904:
+                case 905:
+                case 906:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tornado);
                     break;
-
                 default:
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.raindrop);
-
             }
 
             imWeatherIcon.setImageBitmap(mBitmap);
