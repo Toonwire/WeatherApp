@@ -59,8 +59,9 @@
             android:layout_alignParentBottom="true" />
 
         <!-- Liste af alle locations -->
+
         <TextView
-            android:id="@+id/list_item_string"
+            android:id="@+id/location_item_string"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -70,7 +71,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/delete_btn"
+            android:id="@+id/location_delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
