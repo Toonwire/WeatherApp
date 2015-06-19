@@ -10,8 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,29 +21,40 @@ import java.util.List;
 public class LocationsActivity extends ListActivity {
 
     LocationAdapter mAdapter;
+    TextView footerView;
+    TextView headerView;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mAdapter = new LocationAdapter(getApplicationContext());
+        listView = getListView();
 
-        getListView().setFooterDividersEnabled(true);
+        listView.setFooterDividersEnabled(true);
+        listView.setHeaderDividersEnabled(true);
 
-        TextView footerView = null;
         LayoutInflater inflater = LayoutInflater.from(LocationsActivity.this);
-        footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button,null);
 
-        getListView().addFooterView(footerView);
+        footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button,null);
+        headerView = (TextView) inflater.inflate(R.layout.headerview_location,null);
+
+        listView.addHeaderView(headerView);
+        listView.addFooterView(footerView);
 
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mAdapter.add(new Location("Helsingør", "Denmark", 12.00, 56.00));
             }
         });
 
-        getListView().setAdapter(mAdapter);
+        mAdapter.add(new Location("Tønder", "Denmark", 12.00, 56.00));
+        mAdapter.add(new Location("Thy", "Mali", 12.00, 56.00));
+        mAdapter.add(new Location("Moscow", "USA", 12.00, 56.00));
+
+        listView.setAdapter(mAdapter);
 
     }
 
@@ -86,11 +99,11 @@ public class LocationsActivity extends ListActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            final Location location = (Location) getItem(position);
+            final Location location = mLocations.get(position);
 
-            RelativeLayout itemLayout = null;
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
-            itemLayout = (RelativeLayout) inflater.inflate(R.layout.activity_locations,parent,false);
+
+            RelativeLayout itemLayout = (RelativeLayout) inflater.inflate(R.layout.activity_locations,parent,false);
 
             final TextView nameView = (TextView) itemLayout.findViewById(R.id.location_item_string);
             nameView.setText(location.toString());
@@ -100,6 +113,11 @@ public class LocationsActivity extends ListActivity {
                 @Override
                 public void onClick(View view) {
 
+                    // TODO add undo
+
+                    mLocations.remove(location);
+                    Toast.makeText(mContext, "Deleted: " + location.toString(), Toast.LENGTH_SHORT).show();
+                    listView.setAdapter(mAdapter);
                 }
             });
 

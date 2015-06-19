@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#22313f"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".Settings"
+
+    android:background="#22313f"
     android:orientation="vertical">
 
     <!-- top layout, containing title and settings exit button (x) -->
@@ -11,21 +12,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10"
+        android:layout_weight="9"
         android:background="#80000000">             <!-- #AARRGGBB -->
 
         <TextView
             android:id="@+id/settings_menu_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="40sp"
             android:text="@string/settings_title"
             android:textColor="#FFFFFF"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"/>
 
         <!-- Button til at komme ud af settings og ind i main igen -->
 
@@ -38,210 +39,239 @@
             android:background="@drawable/round_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"/>
 
     </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/main_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp">
+        android:layout_weight="1">
 
-        <GridLayout
-            android:id="@+id/data_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textColor="#FFFFFF"
-            android:columnCount="4"
-            android:rowCount="2"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+        <RelativeLayout
+            android:id="@+id/main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        </GridLayout>
-
-        <!-- Rain -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/rain_title"
-            android:id="@+id/rain_text"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
+            android:layout_marginRight="8dp">
 
-        <!-- Switch til rain -->
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/rain_switch"
-            android:checked="true"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/rain_text" />
-
-        <!-- Humidity -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/humidity_title"
-            android:id="@+id/humidity_text"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/rain_switch"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
-
-        <!-- Switch til humidity -->
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/humidity_switch"
-            android:checked="true"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/humidity_text" />
-
-        <!-- Pressure -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/pressure_title"
-            android:id="@+id/pressure_text"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/humidity_switch"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
-
-        <!-- Switch til pressure -->
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pressure_switch"
-            android:checked="true"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/pressure_text" />
-
-        <!-- Sunrise and sunset -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/sunriseset_title"
-            android:id="@+id/sunriseset_text"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/pressure_switch"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" />
-
-        <!-- Switch til pressure -->
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sunriseset_switch"
-            android:checked="true"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/sunriseset_text" />
-
-
-        <!-- Units -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/unit_title"
-            android:id="@+id/unit_text"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/sunriseset_switch"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"/>
-
-        <!-- Ændrer unit til metric -->
-
-        <RadioGroup
-            android:id="@+id/unit_radio_group"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@+id/unit_text">
-
-            <RadioButton
+            <GridLayout
+                android:id="@+id/data_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/metric_radiobutton"
-                android:id="@+id/metric_radio_button"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#FFFFFF"
-                android:layout_marginTop="10dp"
-                android:checked="true" />
+                android:columnCount="4"
+                android:rowCount="2"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
 
-        <!-- Ændrer unit til imperial -->
+            </GridLayout>
 
-            <RadioButton
+            <!-- Rain -->
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/imperial_radiobutton"
-                android:id="@+id/imperial_radio_button"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/rain_title"
+                android:id="@+id/rain_text"
                 android:textColor="#FFFFFF"
-                android:buttonTint="#FFFFFF"
-                android:layout_marginTop="10dp"
-                android:checked="false" />
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
 
-        </RadioGroup>
+            <!-- Switch til rain -->
 
-        <!-- LocationsActivity -->
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rain_switch"
+                android:checked="true"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/rain_text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/locations_title"
-            android:id="@+id/locations_text"
-            android:textColor="#FFFFFF"
-            android:layout_below="@+id/unit_radio_group"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"/>
+            <!-- Humidity -->
 
-        <!-- Button til at manage locations -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/humidity_title"
+                android:id="@+id/humidity_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/rain_switch"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/manage_locations_button"
-            android:id="@+id/manage_location"
-            android:layout_below="@+id/locations_text"
-            android:layout_alignLeft="@+id/locations_text"
-            android:layout_alignStart="@+id/locations_text"
-            android:layout_marginTop="10dp" />
+            <!-- Switch til humidity -->
 
-    </RelativeLayout>
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/humidity_switch"
+                android:checked="true"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/humidity_text" />
 
+            <!-- Pressure -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/pressure_title"
+                android:id="@+id/pressure_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/humidity_switch"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
+
+            <!-- Switch til pressure -->
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pressure_switch"
+                android:checked="true"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/pressure_text" />
+
+            <!-- Sunrise og sunset -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/sunriseset_title"
+                android:id="@+id/sunriseset_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/pressure_switch"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
+
+            <!-- Switch til sunrise og sunset -->
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sunriseset_switch"
+                android:checked="true"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/sunriseset_text" />
+
+            <!-- Sunrise og sunset -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/wind_speed_title"
+                android:id="@+id/wind_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/sunriseset_switch"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" />
+
+            <!-- Switch til sunrise og sunset -->
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/wind_switch"
+                android:checked="true"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/wind_text" />
+
+            <!-- Units -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/unit_title"
+                android:id="@+id/unit_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/wind_switch"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
+
+            <!-- Ændrer unit til metric -->
+
+            <RadioGroup
+                android:id="@+id/unit_radio_group"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/unit_text">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/metric_radiobutton"
+                    android:id="@+id/metric_radio_button"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:checked="true" />
+
+            <!-- Ændrer unit til imperial -->
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/imperial_radiobutton"
+                    android:id="@+id/imperial_radio_button"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#FFFFFF"
+                    android:layout_marginTop="10dp"
+                    android:checked="false" />
+
+            </RadioGroup>
+
+            <!-- LocationsActivity -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/locations_title"
+                android:id="@+id/locations_text"
+                android:textColor="#FFFFFF"
+                android:layout_below="@+id/unit_radio_group"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"/>
+
+            <!-- Button til at manage locations -->
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/manage_locations_button"
+                android:id="@+id/manage_location"
+                android:layout_below="@+id/locations_text"
+                android:layout_alignLeft="@+id/locations_text"
+                android:layout_alignStart="@+id/locations_text"
+                android:layout_marginTop="10dp" />
+
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>

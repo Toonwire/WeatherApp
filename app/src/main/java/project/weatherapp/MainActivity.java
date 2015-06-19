@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,9 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends Activity {
+
+    // DEBUGGING
+    private boolean debugging = true;
 
 
     private ProgressDialog pDialog;
@@ -72,7 +76,6 @@ public class MainActivity extends Activity {
     private String windDeg;
     private String rain;
     private String dt;
-
 
     private static String url;
 
@@ -135,7 +138,7 @@ public class MainActivity extends Activity {
     public enum UnitSystem {
         METRIC, IMPERIAL;
 
-        public static UnitSystem StringToEnum(String myEnumString) {
+        public static UnitSystem StringToEnum (String myEnumString) {
             try {
                 return valueOf(myEnumString);
             } catch (Exception ex) {
@@ -146,11 +149,11 @@ public class MainActivity extends Activity {
     }
 
     private UnitSystem settingsUnitSystem = UnitSystem.METRIC;
-    private boolean settingsRain = true;
-    private boolean settingHumidity = true;
-    private boolean settingPressure = true;
-    private boolean settingsWind = true;
-    private boolean settingsSunriseSet = true;
+    private boolean settingsRain = false;
+    private boolean settingsHumidity = false;
+    private boolean settingsPressure = false;
+    private boolean settingsWind = false;
+    private boolean settingsSunriseSet = false;
 
     private Button settingsButton;
 
@@ -158,6 +161,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         tvTemperature = (TextView) findViewById(R.id.data_view_temperature);
@@ -231,7 +235,7 @@ public class MainActivity extends Activity {
         // Acquire reference to the LocationManager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
-            Log.i("TESTING", "No location found.");
+            Log.i("TESTING","No location found.");
             finish();
         }
         // Get best last location measurement
@@ -268,7 +272,6 @@ public class MainActivity extends Activity {
         }
 
         settingsButton = (Button) findViewById(R.id.settings_button);
-
         settingsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -278,28 +281,12 @@ public class MainActivity extends Activity {
                 startActivity(settingsIntent);
             }
         });
-//        final LinearLayout dayholder = (LinearLayout) findViewById(R.id.dayholder);
-//        RestService.getWeather(35, 139, new Callback<Infos>() {
-//            @Override
-//            public void success(Infos infos, Response response) {
-//                LayoutInflater inflater = getLayoutInflater();
-//                for (Infos.WeatherData item : infos.getList()) {
-//                    View v = inflater.inflate(R.layout.weather_widget, dayholder, false);
-//                    TextView speedTV = (TextView) v.findViewById(R.id.speed_text);
-//                    speedTV.setText(item.speed + " m/s");
-//                    dayholder.addView(v);
-//
-//
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadSettings();
 
     private class GetWeatherForecast extends AsyncTask<Void, Void, Void> {
         @Override
@@ -327,9 +314,6 @@ public class MainActivity extends Activity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-
-
-
 
                     JSONArray forecastResources = jsonObj.getJSONArray(TAG_LIST);
                     for (int i = 0; i < 5; i++) {
@@ -366,6 +350,10 @@ public class MainActivity extends Activity {
 
             return null;
         }
+        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("testing123", "landscape-mode working");
+//            new GetWeatherForecast().execute();
+        }
 
     }
 
@@ -376,6 +364,19 @@ public class MainActivity extends Activity {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Log.d("orientationTest", "landscape");
+        settingsRain = settings.getBoolean("rain", false);
+        settingsHumidity = settings.getBoolean("humidity", false);
+        settingsPressure = settings.getBoolean("pressure", false);
+        settingsSunriseSet = settings.getBoolean("sunriseset", false);
+        settingsWind = settings.getBoolean("wind",false);
+
+        switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
+            case METRIC:
+                settingsUnitSystem = UnitSystem.METRIC;
+                break;
+            case IMPERIAL:
+                settingsUnitSystem = UnitSystem.IMPERIAL;
+                break;
         }
         else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Log.d("orientationTest", "portrait");
@@ -490,6 +491,12 @@ public class MainActivity extends Activity {
         }
 
 
+        private String getPressureAndUnit() {
+            if (settingsUnitSystem == UnitSystem.METRIC){
+                return Double.parseDouble(pressure) + "hPa";
+            }
+            return df.format(Double.parseDouble(pressure)*0.0145037737955) + "psi";
+        }
 
 
 

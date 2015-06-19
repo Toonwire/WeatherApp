@@ -15,6 +15,7 @@ public class Settings extends MainActivity {
     private Switch swHumidity;
     private Switch swPressure;
     private Switch swSunriseset;
+    private Switch swWind;
     private Button btManageLocation;
     private RadioGroup rgGroup;
     private RadioButton rbMetric;
@@ -37,6 +38,7 @@ public class Settings extends MainActivity {
         swHumidity = (Switch) findViewById(R.id.humidity_switch);
         swPressure = (Switch) findViewById(R.id.pressure_switch);
         swSunriseset = (Switch) findViewById(R.id.sunriseset_switch);
+        swWind = (Switch) findViewById(R.id.wind_switch);
 
         rgGroup = (RadioGroup) findViewById(R.id.unit_radio_group);
         rbMetric = (RadioButton) findViewById(R.id.metric_radio_button);
@@ -60,6 +62,7 @@ public class Settings extends MainActivity {
         swHumidity.setChecked(settings.getBoolean("humidity", false));
         swPressure.setChecked(settings.getBoolean("pressure", false));
         swSunriseset.setChecked(settings.getBoolean("sunriseset", false));
+        swWind.setChecked(settings.getBoolean("wind",false));
 
         switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
             case METRIC:
@@ -141,6 +144,7 @@ public class Settings extends MainActivity {
         editor.putBoolean("humidity", swHumidity.isChecked());
         editor.putBoolean("pressure", swPressure.isChecked());
         editor.putBoolean("sunriseset", swSunriseset.isChecked());
+        editor.putBoolean("wind",swWind.isChecked());
         editor.putString("unit", getUnit().toString());
 
         // Commit the edits!
