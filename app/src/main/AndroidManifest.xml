@@ -32,6 +32,11 @@
             android:label="LocationsActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".AddLocationActivity"
+            android:label="AddLocationActivity"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

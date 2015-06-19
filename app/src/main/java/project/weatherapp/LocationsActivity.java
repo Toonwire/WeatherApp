@@ -2,6 +2,8 @@ package project.weatherapp;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +24,10 @@ public class LocationsActivity extends ListActivity {
 
     LocationAdapter mAdapter;
     TextView footerView;
-    TextView headerView;
+    RelativeLayout headerView;
     ListView listView;
+
+    Button btCloseLocationsActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +42,32 @@ public class LocationsActivity extends ListActivity {
         LayoutInflater inflater = LayoutInflater.from(LocationsActivity.this);
 
         footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button,null);
-        headerView = (TextView) inflater.inflate(R.layout.headerview_location,null);
+        headerView = (RelativeLayout) inflater.inflate(R.layout.headerview_location,null);
 
         listView.addHeaderView(headerView);
         listView.addFooterView(footerView);
 
-        footerView.setOnClickListener(new View.OnClickListener() {
+        btCloseLocationsActivity = (Button) findViewById(R.id.locations_close_button);
+
+        btCloseLocationsActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAdapter.add(new Location("Helsingør", "Denmark", 12.00, 56.00));
+                finish();
             }
         });
 
-        mAdapter.add(new Location("Tønder", "Denmark", 12.00, 56.00));
-        mAdapter.add(new Location("Thy", "Mali", 12.00, 56.00));
-        mAdapter.add(new Location("Moscow", "USA", 12.00, 56.00));
+        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAdapter.add(new Location("Helsingør", 12.00, 56.00));
+                Intent intent = new Intent(LocationsActivity.this, AddLocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mAdapter.add(new Location("Tønder", 12.00, 56.00));
+        mAdapter.add(new Location("Thy", 12.00, 56.00));
+        mAdapter.add(new Location("Moscow", 12.00, 56.00));
 
         listView.setAdapter(mAdapter);
 
@@ -122,6 +137,13 @@ public class LocationsActivity extends ListActivity {
             });
 
             return itemLayout;
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            Uri contactUri = data.getData();
+
         }
     }
 }

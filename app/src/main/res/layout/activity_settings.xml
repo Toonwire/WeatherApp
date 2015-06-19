@@ -270,7 +270,8 @@
                 android:layout_below="@+id/locations_text"
                 android:layout_alignLeft="@+id/locations_text"
                 android:layout_alignStart="@+id/locations_text"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:textColor="#FFFFFF"/>
 
         </RelativeLayout>
     </ScrollView>
