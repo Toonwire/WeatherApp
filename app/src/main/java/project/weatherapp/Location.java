@@ -7,12 +7,12 @@ import android.content.Intent;
  */
 public class Location {
 
-    private String mCityName = new String();
-    private String mCountry = new String();
-    private Float mLongitude;
-    private Float mLatitude;
+    private String mCityName;
+    private String mCountry;
+    private Double mLongitude;
+    private Double mLatitude;
 
-    Location(String cityName, String country , Float longitude, Float latitude) {
+    Location(String cityName, String country , Double longitude, Double latitude) {
         this.mCityName = cityName;
         this.mLongitude = longitude;
         this.mLatitude = latitude;
@@ -24,11 +24,11 @@ public class Location {
         return mCityName;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return mLongitude;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return mLatitude;
     }
 

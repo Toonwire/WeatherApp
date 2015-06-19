@@ -21,11 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!-- Settings activity -->
         <activity
             android:name=".Settings"
-            android:label="Settings">
+            android:label="Settings"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".LocationsActivity"
+            android:label="LocationsActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

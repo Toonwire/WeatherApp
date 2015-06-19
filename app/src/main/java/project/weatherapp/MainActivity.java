@@ -208,8 +208,9 @@ public class MainActivity extends Activity {
 
         settingsRain = settings.getBoolean("rain", false);
         settingsHumidity = settings.getBoolean("humidity", false);
-        settingsWind = settings.getBoolean("pressure", false);
+        settingsPressure = settings.getBoolean("pressure", false);
         settingsSunriseSet = settings.getBoolean("sunriseset", false);
+        settingsWind = settings.getBoolean("wind",false);
 
         switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
             case METRIC:
@@ -418,9 +419,9 @@ public class MainActivity extends Activity {
 
         private String getPressureAndUnit() {
             if (settingsUnitSystem == UnitSystem.METRIC){
-                return Integer.parseInt(pressure) + "hPa";
+                return Double.parseDouble(pressure) + "hPa";
             }
-            return df.format(Integer.parseInt(pressure)*0.0145037737955) + "psi";
+            return df.format(Double.parseDouble(pressure)*0.0145037737955) + "psi";
         }
 
         private String getTemperatureAndUnit() {

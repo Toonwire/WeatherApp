@@ -52,6 +52,7 @@
     <string name="pressure_title">Pressure</string>
     <string name="add_location">Add location</string>
     <string name="sunriseset_title">Sunrise and sunset</string>
+    <string name="wind_speed_title">Windspeed</string>
 
     <string-array name="listdata">
         <item>item 1</item>

@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/add_location"
     android:text="@string/add_location"
-    android:layout_alignParentBottom="true">
+    android:layout_alignParentBottom="true"
+    android:background="#22313f"
+    android:textColor="#FFFFFF">
 
 </Button>
