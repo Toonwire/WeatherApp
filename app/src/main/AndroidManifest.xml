@@ -3,7 +3,7 @@
     package="project.weatherapp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Main activity-->
     <application
@@ -25,7 +25,7 @@
         <!-- Settings activity -->
         <activity
             android:name=".Settings"
-            android:label="Settings">
+            android:label="@string/settings_title">
         </activity>
     </application>
 
