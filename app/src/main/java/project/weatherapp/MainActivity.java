@@ -257,7 +257,7 @@ public class MainActivity extends Activity {
             } else {
                 Log.i("TESTING", "No Initial Reading Available");
             }
-            //            new GetWeatherToday().execute();
+                new GetWeatherToday().execute();
 
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Log.d("testing123", "landscape-mode working");
@@ -284,11 +284,13 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         loadSettings();
+    }
 
     private class GetWeatherForecast extends AsyncTask<Void, Void, Void> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -350,20 +352,12 @@ public class MainActivity extends Activity {
 
             return null;
         }
-        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("testing123", "landscape-mode working");
-//            new GetWeatherForecast().execute();
-        }
 
     }
 
+    public void loadSettings() {
+        SharedPreferences settings = getSharedPreferences("SETTINGS", 0);
 
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("orientationTest", "landscape");
         settingsRain = settings.getBoolean("rain", false);
         settingsHumidity = settings.getBoolean("humidity", false);
         settingsPressure = settings.getBoolean("pressure", false);
@@ -378,11 +372,6 @@ public class MainActivity extends Activity {
                 settingsUnitSystem = UnitSystem.IMPERIAL;
                 break;
         }
-        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.d("orientationTest", "portrait");
-        }
-
-
     }
 
     /**
