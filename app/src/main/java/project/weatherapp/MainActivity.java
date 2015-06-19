@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,10 +29,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends Activity {
-
-    // DEBUGGING
-    private boolean debugging = true;
-
 
     private ProgressDialog pDialog;
 
@@ -88,52 +83,25 @@ public class MainActivity extends Activity {
     private TextView tvRain;
     private TextView tvCity;
 
-    private ArrayList<TextView> tvTemperatureForecastList;
-    private TextView tvTemperatureForecast1;
-    private TextView tvTemperatureForecast2;
-    private TextView tvTemperatureForecast3;
-    private TextView tvTemperatureForecast4;
-    private TextView tvTemperatureForecast5;
-
-    private ArrayList<TextView> tvWindSpeedForecastList;
-    private TextView tvWindSpeedForecast1;
-    private TextView tvWindSpeedForecast2;
-    private TextView tvWindSpeedForecast3;
-    private TextView tvWindSpeedForecast4;
-    private TextView tvWindSpeedForecast5;
-
     private ImageView imTemperature;
-    private ImageView imPressure;
-    private ImageView imHumidity;
     private ImageView imWindDirection;
+    private ImageView imHumidity;
+    private ImageView imPressure;
     private ImageView imSunrise;
     private ImageView imSunset;
-    private ImageView imRain;
     private ImageView imWeatherIcon;
+    private ImageView imRain;
 
-    private ArrayList<ImageView> imWeatherIconForecastList;
-    private ImageView imWeatherIconForecast1;
-    private ImageView imWeatherIconForecast2;
-    private ImageView imWeatherIconForecast3;
-    private ImageView imWeatherIconForecast4;
-    private ImageView imWeatherIconForecast5;
-
-    private ArrayList<ImageView> imWindDirectionForecastList;
-    private ImageView imWindDirectionForecast1;
-    private ImageView imWindDirectionForecast2;
-    private ImageView imWindDirectionForecast3;
-    private ImageView imWindDirectionForecast4;
-    private ImageView imWindDirectionForecast5;
-
-    // Reference to the LocationManager and LocationListener
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-
-    // Current best location estimate
-    private Location location;
+    private ArrayList<TextView> tvTemperatureForecastList = new ArrayList<>();
+    private ArrayList<TextView> tvWindSpeedForecastList= new ArrayList<>();
+    private ArrayList<ImageView> imWeatherIconForecastList= new ArrayList<>();
+    private ArrayList<ImageView> imWindDirectionForecastList= new ArrayList<>();
 
     DecimalFormat df = new DecimalFormat("#.00");
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // the format of your date
+
+    public MainActivity() {
+    }
 
     public enum UnitSystem {
         METRIC, IMPERIAL;
@@ -149,13 +117,6 @@ public class MainActivity extends Activity {
     }
 
     private UnitSystem settingsUnitSystem = UnitSystem.METRIC;
-    private boolean settingsRain = false;
-    private boolean settingsHumidity = false;
-    private boolean settingsPressure = false;
-    private boolean settingsWind = false;
-    private boolean settingsSunriseSet = false;
-
-    private Button settingsButton;
 
 
     @Override
@@ -173,16 +134,16 @@ public class MainActivity extends Activity {
         tvRain = (TextView) findViewById(R.id.data_view_rain);
         tvCity = (TextView) findViewById(R.id.city_name);
 
-        tvTemperatureForecast1 = (TextView) findViewById(R.id.deg_text1);
-        tvTemperatureForecast2 = (TextView) findViewById(R.id.deg_text2);
-        tvTemperatureForecast3 = (TextView) findViewById(R.id.deg_text3);
-        tvTemperatureForecast4 = (TextView) findViewById(R.id.deg_text4);
-        tvTemperatureForecast5 = (TextView) findViewById(R.id.deg_text5);
-        tvWindSpeedForecast1 = (TextView) findViewById(R.id.speed_text1);
-        tvWindSpeedForecast2 = (TextView) findViewById(R.id.speed_text2);
-        tvWindSpeedForecast3 = (TextView) findViewById(R.id.speed_text3);
-        tvWindSpeedForecast4 = (TextView) findViewById(R.id.speed_text4);
-        tvWindSpeedForecast5 = (TextView) findViewById(R.id.speed_text5);
+        TextView tvTemperatureForecast1 = (TextView) findViewById(R.id.deg_text1);
+        TextView tvTemperatureForecast2 = (TextView) findViewById(R.id.deg_text2);
+        TextView tvTemperatureForecast3 = (TextView) findViewById(R.id.deg_text3);
+        TextView tvTemperatureForecast4 = (TextView) findViewById(R.id.deg_text4);
+        TextView tvTemperatureForecast5 = (TextView) findViewById(R.id.deg_text5);
+        TextView tvWindSpeedForecast1 = (TextView) findViewById(R.id.speed_text1);
+        TextView tvWindSpeedForecast2 = (TextView) findViewById(R.id.speed_text2);
+        TextView tvWindSpeedForecast3 = (TextView) findViewById(R.id.speed_text3);
+        TextView tvWindSpeedForecast4 = (TextView) findViewById(R.id.speed_text4);
+        TextView tvWindSpeedForecast5 = (TextView) findViewById(R.id.speed_text5);
 
         tvTemperatureForecastList.add(tvTemperatureForecast1);
         tvTemperatureForecastList.add(tvTemperatureForecast2);
@@ -197,7 +158,6 @@ public class MainActivity extends Activity {
         tvWindSpeedForecastList.add(tvWindSpeedForecast5);
 
 
-
         imTemperature = (ImageView) findViewById(R.id.data_view_temperature_icon);
         imPressure = (ImageView) findViewById(R.id.data_view_pressure_icon);
         imHumidity = (ImageView) findViewById(R.id.data_view_humidity_icon);
@@ -207,16 +167,16 @@ public class MainActivity extends Activity {
         imRain = (ImageView) findViewById(R.id.data_view_rain_icon);
         imWeatherIcon = (ImageView) findViewById(R.id.main_weather_image);
 
-        imWeatherIconForecast1 = (ImageView) findViewById(R.id.weather_day1);
-        imWeatherIconForecast2 = (ImageView) findViewById(R.id.weather_day2);
-        imWeatherIconForecast3 = (ImageView) findViewById(R.id.weather_day3);
-        imWeatherIconForecast4 = (ImageView) findViewById(R.id.weather_day4);
-        imWeatherIconForecast5 = (ImageView) findViewById(R.id.weather_day5);
-        imWindDirectionForecast1 = (ImageView) findViewById(R.id.wind_direction_day1);
-        imWindDirectionForecast2 = (ImageView) findViewById(R.id.wind_direction_day2);
-        imWindDirectionForecast3 = (ImageView) findViewById(R.id.wind_direction_day3);
-        imWindDirectionForecast4 = (ImageView) findViewById(R.id.wind_direction_day4);
-        imWindDirectionForecast5 = (ImageView) findViewById(R.id.wind_direction_day5);
+        ImageView imWeatherIconForecast1 = (ImageView) findViewById(R.id.weather_day1);
+        ImageView imWeatherIconForecast2 = (ImageView) findViewById(R.id.weather_day2);
+        ImageView imWeatherIconForecast3 = (ImageView) findViewById(R.id.weather_day3);
+        ImageView imWeatherIconForecast4 = (ImageView) findViewById(R.id.weather_day4);
+        ImageView imWeatherIconForecast5 = (ImageView) findViewById(R.id.weather_day5);
+        ImageView imWindDirectionForecast1 = (ImageView) findViewById(R.id.wind_direction_day1);
+        ImageView imWindDirectionForecast2 = (ImageView) findViewById(R.id.wind_direction_day2);
+        ImageView imWindDirectionForecast3 = (ImageView) findViewById(R.id.wind_direction_day3);
+        ImageView imWindDirectionForecast4 = (ImageView) findViewById(R.id.wind_direction_day4);
+        ImageView imWindDirectionForecast5 = (ImageView) findViewById(R.id.wind_direction_day5);
 
         imWeatherIconForecastList.add(imWeatherIconForecast1);
         imWeatherIconForecastList.add(imWeatherIconForecast2);
@@ -230,48 +190,7 @@ public class MainActivity extends Activity {
         imWindDirectionForecastList.add(imWindDirectionForecast4);
         imWindDirectionForecastList.add(imWindDirectionForecast5);
 
-
-
-        // Acquire reference to the LocationManager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager == null) {
-            Log.i("TESTING","No location found.");
-            finish();
-        }
-        // Get best last location measurement
-        location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        // Display last reading information
-
-
-        // Set by location in smartphone
-//        url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk";
-
-        // setup current weather from data extracted from the API
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Log.d("testing123", "portrait-mode working");
-            if (null != location) {
-                Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
-                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude();
-                sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
-
-            } else {
-                Log.i("TESTING", "No Initial Reading Available");
-            }
-                new GetWeatherToday().execute();
-
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("testing123", "landscape-mode working");
-            if (null != location) {
-                Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
-                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&cnt=5&mode=json";
-                sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
-            } else {
-                Log.i("TESTING", "No Initial Reading Available");
-            }
-            new GetWeatherForecast().execute();
-        }
-
-        settingsButton = (Button) findViewById(R.id.settings_button);
+        Button settingsButton = (Button) findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -287,6 +206,48 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
         loadSettings();
+
+// Acquire reference to the LocationManager
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager == null) {
+            Log.i("TESTING","No location found.");
+            finish();
+        }
+        // Get best last location measurement
+        Location location = null;
+        if (locationManager != null) {
+            location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        }
+        // Display last reading information
+
+
+        // Set by location in smartphone
+
+        // setup current weather from data extracted from the API
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Log.d("testing123", "portrait-mode working");
+            if (null != location) {
+                Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
+                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units="+settingsUnitSystem;
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
+
+            } else {
+                Log.i("TESTING", "No Initial Reading Available");
+            }
+            new GetWeatherToday().execute();
+
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Log.d("testing123", "landscape-mode working");
+            if (null != location) {
+                Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
+                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&cnt=5&mode=json";
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT+1")); // give a timezone reference for formatting (see comment at the bottom)
+            } else {
+                Log.i("TESTING", "No Initial Reading Available");
+            }
+            new GetWeatherForecast().execute();
+        }
+
     }
 
     private class GetWeatherForecast extends AsyncTask<Void, Void, Void> {
@@ -318,7 +279,9 @@ public class MainActivity extends Activity {
                     // Getting JSON Array node
 
                     JSONArray forecastResources = jsonObj.getJSONArray(TAG_LIST);
-                    for (int i = 0; i < 5; i++) {
+
+                    for (int i = 0; i < forecastResources.length(); i++) {
+
                         JSONObject forecast = forecastResources.getJSONObject(i);
                         dt = jsonObj.getString(TAG_DT);
                         JSONObject tempResources = forecast.getJSONObject(TAG_TEMPERATURE);
@@ -336,8 +299,8 @@ public class MainActivity extends Activity {
                         windDeg = forecastWindResources.getString(TAG_WIND_DEGREES);
 
 
-                        tvTemperatureForecastList.get(i).setText(temperature);
-                        tvWindSpeedForecastList.get(i).setText(windSpeed);
+                        tvTemperatureForecastList.get(i).setText(getTemperatureAndUnit());
+                        tvWindSpeedForecastList.get(i).setText(getWindSpeedAndUnit());
                         imWeatherIconForecastList.get(i).setImageBitmap(getWeatherIconBitmap(weatherID));
                         imWindDirectionForecastList.get(i).setRotation(Float.parseFloat(windDeg));
 
@@ -353,16 +316,39 @@ public class MainActivity extends Activity {
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            // Dismiss the progress dialog
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+            /**
+             * Updating parsed JSON data into ListView
+             * */
+
+            TextView tvCityLandscapeMode = (TextView) findViewById(R.id.city_name_landscape);
+
+            tvCityLandscapeMode.setText("city..");
+
+            Log.d("testingg", "Temperature: " + temperature);
+            Log.d("testingg", "Weather ID: " + weatherID);
+            Log.d("testingg", "Wind Speed: " + windSpeed);
+            Log.d("testingg", "Wind Direction: " + windDeg);
+
+        }
+
+
     }
 
     public void loadSettings() {
         SharedPreferences settings = getSharedPreferences("SETTINGS", 0);
 
-        settingsRain = settings.getBoolean("rain", false);
-        settingsHumidity = settings.getBoolean("humidity", false);
-        settingsPressure = settings.getBoolean("pressure", false);
-        settingsSunriseSet = settings.getBoolean("sunriseset", false);
-        settingsWind = settings.getBoolean("wind",false);
+        boolean settingsRain = settings.getBoolean("rain", false);
+        boolean settingsHumidity = settings.getBoolean("humidity", false);
+        boolean settingsPressure = settings.getBoolean("pressure", false);
+        boolean settingsSunriseSet = settings.getBoolean("sunriseset", false);
+        boolean settingsWind = settings.getBoolean("wind",false);
 
         switch (UnitSystem.StringToEnum(settings.getString("unit", "METRIC"))) {
             case METRIC:
@@ -463,58 +449,46 @@ public class MainActivity extends Activity {
             tvCity.setText(city);
             tvSunrise.setText(sunriseTime);
             tvSunset.setText(sunsetTime);
-            tvWindSpeed.setText(df.format(Double.parseDouble(windSpeed)) + "m/s");
-            if (rain != null)
-                tvRain.setText(df.format(Double.parseDouble(rain)) + "mm");
-            tvTemperature.setText(df.format(Double.parseDouble(temperature) - 273.15) + "°C");
-            tvPressure.setText(Integer.parseInt(pressure) + " hPa");
+            tvWindSpeed.setText(getWindSpeedAndUnit());
+            tvRain.setText(getRainAndUnit());
+            tvTemperature.setText(getTemperatureAndUnit());
+            tvPressure.setText(getPressureAndUnit());
             tvHumidity.setText(humidity + "%");
 
             imWindDirection.setRotation(Float.parseFloat(windDeg));
-
-
-            // checks if the current time is within the day time interval, created by sunrise and sunset
-
-
             imWeatherIcon.setImageBitmap(getWeatherIconBitmap(weatherID));
         }
 
+    }
 
-        private String getPressureAndUnit() {
-            if (settingsUnitSystem == UnitSystem.METRIC){
-                return Double.parseDouble(pressure) + "hPa";
-            }
-            return df.format(Double.parseDouble(pressure)*0.0145037737955) + "psi";
+    public String getPressureAndUnit() {
+        if (settingsUnitSystem == UnitSystem.METRIC){
+            return (int)Double.parseDouble(pressure) + " hPa";
         }
-
-
-
-
+        return (int)(Double.parseDouble(pressure)*0.0145037737955) + " psi";
     }
 
-    public void setUnitSystem(UnitSystem unitSystem){
-        settingsUnitSystem = unitSystem;
+    public String getRainAndUnit() {
+        if (rain != null)
+            return df.format(Double.parseDouble(rain)) + "mm";
+        return "No rain";
     }
 
-    public void setRain(boolean checked){
-        settingsRain = true;
+    public String getTemperatureAndUnit() {
+        if (settingsUnitSystem == UnitSystem.METRIC)
+            return df.format(Double.parseDouble(temperature)) + "°C";
+        return df.format(Double.parseDouble(temperature)) + "°F";
     }
 
-    public void setHumidity(boolean checked){
-        settingsRain = true;
-    }
-
-    public void setPressure(boolean checked){
-        settingsRain = true;
-    }
-
-    public void setSunriseSet(boolean checked){
-        settingsRain = true;
+    public String getWindSpeedAndUnit() {
+        if (settingsUnitSystem == UnitSystem.METRIC)
+            return df.format(Double.parseDouble(windSpeed)) + " m/s";
+        return df.format(Double.parseDouble(windSpeed)) + " mph";
     }
 
     public Bitmap getWeatherIconBitmap(int weatherID){
 
-        Bitmap mBitmap = null;
+        Bitmap mBitmap;
 
         switch(weatherID){
             case 200:

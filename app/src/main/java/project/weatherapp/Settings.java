@@ -169,7 +169,7 @@ public class Settings extends MainActivity {
 
     public void goToManageLocations() {
         // TODO start LocationsActivity with array of all locations
-        Intent intent = new Intent(Settings.this,LocationsActivity.class);
+        Intent intent = new Intent(Settings.this, LocationsActivity.class);
         startActivity(intent);
     }
 }

@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,9 +23,11 @@ public class LocationsActivity extends ListActivity {
     TextView headerView;
     ListView listView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_locations);
 
         mAdapter = new LocationAdapter(getApplicationContext());
         listView = getListView();
@@ -35,6 +35,16 @@ public class LocationsActivity extends ListActivity {
         listView.setFooterDividersEnabled(true);
         listView.setHeaderDividersEnabled(true);
 
+//        Button closeButton = (Button) findViewById(R.id.close_button);
+//        closeButton.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+
+        TextView footerView = null;
         LayoutInflater inflater = LayoutInflater.from(LocationsActivity.this);
 
         footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button,null);
