@@ -11,12 +11,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +38,8 @@ public class LocationsActivity extends ListActivity {
     private ListView listView;
     private static final int REQUEST_CODE = 0;
 
+    private String fileName = "locationsData.txt";
+
     private List<Location> mLocations = new ArrayList<Location>();
 
     Button btCloseLocationsActivity;
@@ -37,6 +49,17 @@ public class LocationsActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getFileStreamPath(fileName).exists()) {
+            try {
+
+                readFile();
+
+            } catch (IOException e) {
+                Log.i("file", "IOException");
+            }
+        }
+
+
         mAdapter = new LocationAdapter(getApplicationContext());
         listView = getListView();
 
@@ -45,8 +68,8 @@ public class LocationsActivity extends ListActivity {
 
         LayoutInflater inflater = LayoutInflater.from(LocationsActivity.this);
 
-        footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button,null);
-        headerView = (RelativeLayout) inflater.inflate(R.layout.headerview_location,null);
+        footerView = (TextView) inflater.inflate(R.layout.footerview_addlocation_button, null);
+        headerView = (RelativeLayout) inflater.inflate(R.layout.headerview_location, null);
 
         listView.addHeaderView(headerView);
         listView.addFooterView(footerView);
@@ -68,13 +91,48 @@ public class LocationsActivity extends ListActivity {
             }
         });
 
-        mAdapter.add(new Location("Tønder", 12.00, 56.00));
-        mAdapter.add(new Location("Thy", 12.00, 56.00));
-        mAdapter.add(new Location("Moscow", 12.00, 56.00));
-
         listView.setAdapter(mAdapter);
+    }
+
+    private void writeFile() throws FileNotFoundException {
+
+        FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
+
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(fos)));
+
+        for(Location location : mLocations)
+            pw.println(location.getLocationName() + ";" + location.getLongitude() + ";" + location.getLatitude());
+
+        pw.close();
 
     }
+
+    private void readFile() throws IOException {
+
+        FileInputStream fis = openFileInput(fileName);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+        String line = br.readLine();
+
+        while (line != null) {
+
+            String[] items = line.split(";");
+
+            // Will get a problem if you enter a locationName with ;
+
+            String locationName = items[0];
+            double longitude = Double.parseDouble(items[1]);
+            double latitude = Double.parseDouble(items[2]);
+
+            mLocations.add(new Location(locationName,longitude,latitude));
+
+            line = br.readLine();
+        }
+
+
+        br.close();
+    }
+
 
     private class LocationAdapter extends BaseAdapter {
 
@@ -133,14 +191,36 @@ public class LocationsActivity extends ListActivity {
                     mLocations.remove(location);
                     Toast.makeText(mContext, "Deleted: " + location.toString(), Toast.LENGTH_SHORT).show();
                     listView.setAdapter(mAdapter);
+
+                    try {
+                        writeFile();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             });
 
             return itemLayout;
         }
+
+        private void writeFile() throws FileNotFoundException {
+
+            FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
+
+            PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(fos)));
+
+            for(Location location : mLocations)
+                pw.println(location.getLocationName() + ";" + location.getLongitude() + ";" + location.getLatitude());
+
+            pw.close();
+
+        }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("arraywithlocations","Start");
         if (resultCode == RESULT_OK) {
@@ -158,6 +238,7 @@ public class LocationsActivity extends ListActivity {
             Location location = new Location(locationName,longitude,latitude);
 
             mLocations.add(location);
+
             Log.d("arraywithlocations", "Start list");
             for (int i = 0; i < mLocations.size(); i++) {
                 Log.d("arraywithlocations",mLocations.get(i).getLocationName() + " Lon:" + mLocations.get(i).getLongitude() + " Lat:" + mLocations.get(i).getLatitude());
@@ -166,6 +247,13 @@ public class LocationsActivity extends ListActivity {
             mAdapter.notifyDataSetChanged();
 
             Log.d("arraywithlocations", "added");
+
+            try {
+                writeFile();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }

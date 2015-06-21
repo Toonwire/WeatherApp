@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,8 +44,8 @@ public class AddLocationActivity extends ListActivity {
     JSONArray resultArray;
 
     private static String url;
-    private String countryName;
     private String cityName;
+    private String fixedCityName;
     private String address;
     private double longitude;
     private double latitude;
@@ -54,7 +56,6 @@ public class AddLocationActivity extends ListActivity {
 
     private Button btShowLocations;
     private Button btCloseAddLocation;
-    private EditText etCountryName;
     private EditText etCityName;
     private ProgressDialog pDialog;
 
@@ -76,18 +77,47 @@ public class AddLocationActivity extends ListActivity {
 
         btShowLocations = (Button) findViewById(R.id.show_locations_in_add_location);
         btCloseAddLocation =(Button) findViewById(R.id.add_locations_close_button);
-        etCountryName = (EditText) findViewById(R.id.country_name_input);
         etCityName = (EditText) findViewById(R.id.city_name_input);
 
         btShowLocations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                countryName = etCountryName.getText().toString();
-                cityName = etCityName.getText().toString();
-                url = "http://maps.google.com/maps/api/geocode/json?address=" + cityName + "-" + countryName + "&sensor=false";
-                locations.clear();
-                mAdapter.notifyDataSetChanged();
-                new GetAllLocations().execute();
+                try {
+                    cityName = etCityName.getText().toString();
+
+                    // Removing common url crashes
+                    cityName = cityName.replace(" ", "");
+                    cityName = cityName.replace("!","");
+                    cityName = cityName.replace("%","");
+                    cityName = cityName.replace("?","");
+                    cityName = cityName.replace("\"","");
+
+                    // Will crash if the user uses characters not allowed in url
+
+                    url = "http://maps.google.com/maps/api/geocode/json?address=" + cityName + "&sensor=false";
+                    locations.clear();
+                    mAdapter.notifyDataSetChanged();
+                    new GetAllLocations().execute();
+                } catch (Exception e){
+                    Toast.makeText(mContext,"Please don't do that",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        etCityName.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+                for (int i = s.length(); i > 0; i--) {
+                    if (s.subSequence(i - 1, i).toString().equals("\n"))
+                        s.replace(i - 1, i, "");
+                }
             }
         });
 

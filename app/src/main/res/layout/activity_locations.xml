@@ -6,16 +6,6 @@
     android:orientation="vertical"
     android:background="#22313f">
 
-    <TextView
-        android:id="@+id/location_item_string"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:text="Helsingør, Denmark"/>
-
     <Button
         android:id="@+id/location_delete_btn"
         android:layout_width="wrap_content"
@@ -23,6 +13,17 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:text="Delete" />
+
+    <TextView
+        android:id="@+id/location_item_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/location_delete_btn"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:text="Helsingør, Denmark"/>
 
 
 
