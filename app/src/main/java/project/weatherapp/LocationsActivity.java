@@ -3,8 +3,8 @@ package project.weatherapp;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +22,16 @@ import java.util.List;
 
 public class LocationsActivity extends ListActivity {
 
-    LocationAdapter mAdapter;
-    TextView footerView;
-    RelativeLayout headerView;
-    ListView listView;
+    private LocationAdapter mAdapter;
+    private TextView footerView;
+    private RelativeLayout headerView;
+    private ListView listView;
+    private static final int REQUEST_CODE = 0;
+
+    private List<Location> mLocations = new ArrayList<Location>();
 
     Button btCloseLocationsActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,8 @@ public class LocationsActivity extends ListActivity {
         footerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAdapter.add(new Location("Helsingør", 12.00, 56.00));
                 Intent intent = new Intent(LocationsActivity.this, AddLocationActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -75,7 +78,6 @@ public class LocationsActivity extends ListActivity {
 
     private class LocationAdapter extends BaseAdapter {
 
-        private final List<Location> mLocations = new ArrayList<Location>();
         private Context mContext;
 
         public LocationAdapter(Context applicationContext) {
@@ -128,8 +130,6 @@ public class LocationsActivity extends ListActivity {
                 @Override
                 public void onClick(View view) {
 
-                    // TODO add undo
-
                     mLocations.remove(location);
                     Toast.makeText(mContext, "Deleted: " + location.toString(), Toast.LENGTH_SHORT).show();
                     listView.setAdapter(mAdapter);
@@ -141,9 +141,31 @@ public class LocationsActivity extends ListActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("arraywithlocations","Start");
         if (resultCode == RESULT_OK) {
-            Uri contactUri = data.getData();
+            Log.d("arraywithlocations","Result_ok");
 
+            double latitude = data.getDoubleExtra("latitude", 0);
+            Log.d("arraywithlocations", "latitude");
+
+            double longitude = data.getDoubleExtra("longitude", 0);
+            Log.d("arraywithlocations", "longitude");
+
+            String locationName = data.getStringExtra("locationName");
+            Log.d("arraywithlocations", "locationName");
+
+            Location location = new Location(locationName,longitude,latitude);
+
+            mLocations.add(location);
+            Log.d("arraywithlocations", "Start list");
+            for (int i = 0; i < mLocations.size(); i++) {
+                Log.d("arraywithlocations",mLocations.get(i).getLocationName() + " Lon:" + mLocations.get(i).getLongitude() + " Lat:" + mLocations.get(i).getLatitude());
+            }
+
+            mAdapter.notifyDataSetChanged();
+
+            Log.d("arraywithlocations", "added");
         }
     }
 }

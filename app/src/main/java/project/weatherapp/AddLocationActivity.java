@@ -4,7 +4,6 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,18 +29,15 @@ import java.util.List;
 public class AddLocationActivity extends ListActivity {
 
     private static final String TAG_RESULTS = "results";
-    private static final String TAG_ADDRESS_COMPONENTS = "address_components";
-    private static final String TAG_CITY_NAME = "long_name";
-    private static final String TAG_COUNTRY_LONG_NAME = "long_name";
-    private static final String TAG_COUNTRY_SHORT_NAME = "short_name";
-    private static final String TAG_POSTAL_CODE = "long_name";
     private static final String TAG_FORMATED_ADDRESS = "formatted_address";
     private static final String TAG_GEOMETRY = "geometry";
     private static final String TAG_LOCATION = "location";
     private static final String TAG_LONGITUDE = "lng";
     private static final String TAG_LATITUDE = "lat";
 
-    List<Location> locations = new ArrayList<Location>();
+    List<Location> locations = new ArrayList<>();
+
+    private static Context mContext;
 
     JSONArray resultArray;
 
@@ -53,9 +50,9 @@ public class AddLocationActivity extends ListActivity {
 
     ListView listView;
     LocationAdapter mAdapter;
-    RelativeLayout headerView;
+    LinearLayout headerView;
 
-    private Button btAddLocation;
+    private Button btShowLocations;
     private Button btCloseAddLocation;
     private EditText etCountryName;
     private EditText etCityName;
@@ -65,40 +62,46 @@ public class AddLocationActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdapter = new LocationAdapter(getApplicationContext());
+        mContext = getApplicationContext();
+        mAdapter = new LocationAdapter(mContext);
         listView = getListView();
 
         listView.setHeaderDividersEnabled(true);
 
         LayoutInflater inflater = LayoutInflater.from(AddLocationActivity.this);
 
-        headerView = (RelativeLayout) inflater.inflate(R.layout.add_location_header,null);
+        headerView = (LinearLayout) inflater.inflate(R.layout.add_location_header,null);
 
         listView.addHeaderView(headerView);
 
-        btAddLocation = (Button) findViewById(R.id.add_location_in_add_location);
+        btShowLocations = (Button) findViewById(R.id.show_locations_in_add_location);
+        btCloseAddLocation =(Button) findViewById(R.id.add_locations_close_button);
         etCountryName = (EditText) findViewById(R.id.country_name_input);
         etCityName = (EditText) findViewById(R.id.city_name_input);
 
-        btAddLocation.setOnClickListener(new View.OnClickListener() {
+        btShowLocations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 countryName = etCountryName.getText().toString();
                 cityName = etCityName.getText().toString();
                 url = "http://maps.google.com/maps/api/geocode/json?address=" + cityName + "-" + countryName + "&sensor=false";
+                locations.clear();
+                mAdapter.notifyDataSetChanged();
                 new GetAllLocations().execute();
             }
         });
 
+        btCloseAddLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         listView.setAdapter(mAdapter);
 
     }
 
-    protected void onResume() {
-        super.onResume();
-        
-    }
 
     private class LocationAdapter extends BaseAdapter {
 
@@ -138,7 +141,7 @@ public class AddLocationActivity extends ListActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             final Location location = locations.get(position);
 
@@ -155,10 +158,29 @@ public class AddLocationActivity extends ListActivity {
                 public void onClick(View view) {
 
                     Intent intent = new Intent();
-                    setResult(RESULT_OK,intent);
+
+                    intent.putExtra("longitude", location.getLongitude());
+
+                    Log.d("arraywithlocations", location.getLongitude().toString());
+
+                    intent.putExtra("latitude", location.getLatitude());
+
+                    Log.d("arraywithlocations", location.getLatitude().toString());
+
+                    intent.putExtra("locationName", location.getLocationName());
+
+                    Log.d("arraywithlocations", location.getLocationName());
+
+                    setResult(RESULT_OK, intent);
 
                     Toast.makeText(mContext, "Added: " + location.toString(), Toast.LENGTH_SHORT).show();
-                    listView.setAdapter(mAdapter);
+
+                    Log.d("arraywithlocations", location.getLocationName());
+
+                    finish();
+
+                    Log.d("arraywithlocations", "after finish()");
+
                 }
             });
 
@@ -198,7 +220,6 @@ public class AddLocationActivity extends ListActivity {
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
-
                     resultArray = jsonObj.getJSONArray(TAG_RESULTS);
 
                     Log.d("loop","Is before loop");
@@ -225,32 +246,6 @@ public class AddLocationActivity extends ListActivity {
                     Log.d("loop","Is after loop");
 
 
-                    /*
-                    dt = jsonObj.getString(TAG_DT);
-                    city = jsonObj.getString(TAG_CITY);
-
-                    JSONObject todaysSysResources = jsonObj.getJSONObject(TAG_SYS);
-                    sunrise = todaysSysResources.getString(TAG_SUNRISE);
-                    sunset = todaysSysResources.getString(TAG_SUNSET);
-
-                    JSONArray todaysWeatherResources = jsonObj.getJSONArray(TAG_WEATHER);
-                    JSONObject todaysWeather = todaysWeatherResources.getJSONObject(0);
-                    weatherID = Integer.parseInt(todaysWeather.getString(TAG_ID));
-
-                    JSONObject todaysMainResources = jsonObj.getJSONObject(TAG_MAIN);
-                    temperature = todaysMainResources.getString(TAG_TEMPERATURE);
-                    pressure = todaysMainResources.getString(TAG_PRESSURE);
-                    hum<idity = todaysMainResources.getString(TAG_HUMIDITY);
-
-                    JSONObject todaysWindResources = jsonObj.getJSONObject(TAG_WIND);
-                    windSpeed = todaysWindResources.getString(TAG_WIND_SPEED);
-                    windDeg = todaysWindResources.getString(TAG_WIND_DEGREES);
-
-                    JSONObject todaysRainResources = jsonObj.getJSONObject(TAG_RAIN);
-                    rain = todaysRainResources.getString(TAG_3H);
-                    Log.d("tagtest", rain);
-                    */
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -268,9 +263,17 @@ public class AddLocationActivity extends ListActivity {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
+
+            if (locations.size() == 0) {
+                Toast.makeText(mContext,"Could not find the location.",Toast.LENGTH_SHORT).show();
+            }
+
+            mAdapter.notifyDataSetChanged();
+
             /**
              * Updating parsed JSON data into ListView
              * */
+
             
         }
 

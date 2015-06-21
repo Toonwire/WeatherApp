@@ -8,10 +8,10 @@ import android.content.Intent;
 public class Location {
 
     private String mLocationName;
-    private Double mLongitude;
-    private Double mLatitude;
+    private double mLongitude;
+    private double mLatitude;
 
-    Location(String locationName, Double longitude, Double latitude) {
+    Location(String locationName, double longitude, double latitude) {
         this.mLocationName = locationName;
         this.mLongitude = longitude;
         this.mLatitude = latitude;

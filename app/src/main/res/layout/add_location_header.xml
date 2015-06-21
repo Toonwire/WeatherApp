@@ -1,70 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/add_location_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#22313f">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter the name of the country:"
-        android:id="@+id/country_name_title"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp" />
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="9"
+    android:background="#80000000">             <!-- #AARRGGBB -->
 
-    <EditText
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
+        <TextView
+            android:id="@+id/settings_menu_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:text="@string/locations_settings_manage"
+            android:textColor="#FFFFFF"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+
+        <!-- Button til at komme ud af settings og ind i main igen -->
+
+        <Button
+            android:id="@+id/add_locations_close_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="@string/settings_button_x"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/round_button"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/country_name_input"
-        android:background="#FFFFFF"
-        android:layout_below="@+id/country_name_title" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Enter the name of the closest city/town:"
-        android:id="@+id/city_name_title"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_below="@+id/country_name_input" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/country_name_input"
+            android:id="@+id/country_name_title"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" />
 
+        <EditText
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/country_name_input"
+            android:background="#FFFFFF"
+            android:layout_below="@+id/country_name_title" />
 
-    <EditText
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/city_name_input"
-        android:background="#FFFFFF"
-        android:layout_below="@+id/city_name_title" />
-
-
-    <Button
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_location_in_add_location"
-        android:text="@string/add_location"
-        android:layout_alignParentBottom="true"
-        android:textColor="#FFFFFF"
-        android:layout_below="@+id/city_name_input" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/city_name_input"
+            android:id="@+id/city_name_title"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_below="@+id/country_name_input" />
 
 
-</RelativeLayout>
+        <EditText
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/city_name_input"
+            android:background="#FFFFFF"
+            android:layout_below="@+id/city_name_title" />
+
+
+        <Button
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_locations_in_add_location"
+            android:text="@string/add_location_show_location"
+            android:layout_alignParentBottom="true"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/city_name_input" />
+
+        </RelativeLayout>
+
+</LinearLayout>
