@@ -57,6 +57,11 @@
     <string name="add_location_show_location">Find location</string>
     <string name="city_name_input">Enter the name of the closest city/town:</string>
     <string name="country_name_input">Enter the name of the country:</string>
+    <string name="delete_location">Delete</string>
+    <string name="saved_location_example">Helsingør, Denmark</string>
+    <string name="location_header_country">Enter the name of the country:</string>
+    <string name="location_header_city">Enter the name of the closest city/town:</string>
+    <string name="location_list_example">Helsingør, Denmark</string>
 
     <string-array name="listdata">
         <item>item 1</item>

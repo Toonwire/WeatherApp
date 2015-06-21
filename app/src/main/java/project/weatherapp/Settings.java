@@ -1,5 +1,6 @@
 package project.weatherapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
-public class Settings extends MainActivity {
+public class Settings extends Activity {
 
     private Switch swRain;
     private Switch swHumidity;
@@ -22,12 +23,6 @@ public class Settings extends MainActivity {
     private RadioButton rbImperial;
     private Button closeButton;
 
-//    private boolean rain;
-//    private boolean humidity;
-//    private boolean pressure;
-//    private boolean sunriseset;
-//    private UnitSystem unitSystem;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +34,10 @@ public class Settings extends MainActivity {
         swPressure = (Switch) findViewById(R.id.pressure_switch);
         swSunriseset = (Switch) findViewById(R.id.sunriseset_switch);
         swWind = (Switch) findViewById(R.id.wind_switch);
-
         rgGroup = (RadioGroup) findViewById(R.id.unit_radio_group);
         rbMetric = (RadioButton) findViewById(R.id.metric_radio_button);
         rbImperial = (RadioButton) findViewById(R.id.imperial_radio_button);
-
         btManageLocation = (Button) findViewById(R.id.manage_location);
-
         closeButton = (Button) findViewById(R.id.settings_close_button);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +50,7 @@ public class Settings extends MainActivity {
 
         // Restore preferences
         SharedPreferences settings = getSharedPreferences("SETTINGS", 0);
+
         swRain.setChecked(settings.getBoolean("rain", false));
         swHumidity.setChecked(settings.getBoolean("humidity", false));
         swPressure.setChecked(settings.getBoolean("pressure", false));

@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:text="@string/location_name"
+            android:id="@+id/city_name_landscape"
+            android:layout_centerInParent="true"
+            android:textSize="45sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/dayholder"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/day_day1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/day_day1"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/date_day1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/date_day1"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/weather_day1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:color="#FFFFFF"
+                android:src="@drawable/sun" />
+
+            <TextView
+                android:id="@+id/deg_text1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/deg_day1"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/wind_flag_day1"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:layout_rowSpan="2"
+                    android:color="#FFFFFF"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/wind" />
+
+                <ImageView
+                    android:id="@+id/wind_direction_day1"
+                    android:layout_width="27dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:color="#FFFFFF"
+                    android:src="@drawable/wind_direction" />
+
+                <TextView
+                    android:id="@+id/speed_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/wind_speed_day1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+            </GridLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/day_day2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/day_day2"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/date_day2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/date_day2"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/weather_day2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:color="#FFFFFF"
+                android:src="@drawable/sun" />
+
+            <TextView
+                android:id="@+id/deg_text2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/deg_day2"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/wind_flag_day2"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:layout_rowSpan="2"
+                    android:color="#FFFFFF"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/wind" />
+
+                <ImageView
+                    android:id="@+id/wind_direction_day2"
+                    android:layout_width="27dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:color="#FFFFFF"
+                    android:src="@drawable/wind_direction" />
+
+                <TextView
+                    android:id="@+id/speed_text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/wind_speed_day2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp" />
+            </GridLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/day_day3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/day_day3"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/date_day3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/date_day3"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/weather_day3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:color="#FFFFFF"
+                android:src="@drawable/sun" />
+
+            <TextView
+                android:id="@+id/deg_text3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/deg_day3"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/wind_flag_day3"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:layout_rowSpan="2"
+                    android:color="#FFFFFF"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/wind" />
+
+                <ImageView
+                    android:id="@+id/wind_direction_day3"
+                    android:layout_width="27dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:color="#FFFFFF"
+                    android:src="@drawable/wind_direction" />
+
+                <TextView
+                    android:id="@+id/speed_text3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/wind_speed_day3"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+            </GridLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/day_day4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/day_day4"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/date_day4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/date_day4"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/weather_day4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:color="#FFFFFF"
+                android:src="@drawable/sun" />
+
+            <TextView
+                android:id="@+id/deg_text4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/deg_day4"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/wind_flag_day4"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:layout_rowSpan="2"
+                    android:color="#FFFFFF"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/wind" />
+
+                <ImageView
+                    android:id="@+id/wind_direction_day4"
+                    android:layout_width="27dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:color="#FFFFFF"
+                    android:src="@drawable/wind_direction" />
+
+                <TextView
+                    android:id="@+id/speed_text4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/wind_speed_day4"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+            </GridLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/day_day5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/day_day5"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/date_day5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/date_day5"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/weather_day5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:color="#FFFFFF"
+                android:src="@drawable/sun" />
+
+            <TextView
+                android:id="@+id/deg_text5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/deg_day5"
+                android:textColor="#FFFFFF"
+                android:textSize="30dp" />
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/wind_flag_day5"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:layout_gravity="center"
+                    android:layout_rowSpan="2"
+                    android:color="#FFFFFF"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/wind" />
+
+                <ImageView
+                    android:id="@+id/wind_direction_day5"
+                    android:layout_width="27dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:color="#FFFFFF"
+                    android:src="@drawable/wind_direction" />
+
+                <TextView
+                    android:id="@+id/speed_text5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/wind_speed_day5"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+            </GridLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
