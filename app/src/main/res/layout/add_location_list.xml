@@ -11,15 +11,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginRight="5dp"
-        android:text="Add" />
+        android:layout_marginEnd="5dp"
+        android:text="@string/add_location_button" />
 
     <TextView
         android:id="@+id/location_item_another_string"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_toLeftOf="@id/location_add_this_location_btn"
+        android:layout_toStartOf="@id/location_add_this_location_btn"
         android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="#FFFFFF" />

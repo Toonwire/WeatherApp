@@ -62,6 +62,9 @@
     <string name="location_header_country">Enter the name of the country:</string>
     <string name="location_header_city">Enter the name of the closest city/town:</string>
     <string name="location_list_example">Helsingør, Denmark</string>
+    <string name="city_country_example">Helsingør, Denmark</string>
+    <string name="add_location_button">Add</string>
+    <string name="country_denmark">Denmark</string>
 
     <string-array name="listdata">
         <item>item 1</item>

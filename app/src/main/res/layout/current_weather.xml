@@ -11,18 +11,16 @@
         android:layout_weight="2"
         android:padding="10dp" >
 
-        <!-- DATE -->
-        <!--<TextView-->
-        <!--android:id="@+id/date_text"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-        <!--android:text="@string/date_text"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:textColor="#FFFFFF"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true" />-->
+         <!--DATE -->
+        <TextView
+        android:id="@+id/date_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/date_text"
+        android:textColor="#FFFFFF"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true" />
 
         <!-- MAIN WEATHER VISUALISATION / IMAGE -->
         <ImageView
@@ -33,7 +31,9 @@
             android:src="@drawable/sun"
             android:scaleType="fitXY"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
         <!-- Temperature -->
         <TextView
             android:id="@+id/data_view_temperature"
@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textSize="55sp"
             android:text="@string/temperature"
             android:textColor="#FFFFFF" />
@@ -66,29 +67,32 @@
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:layout_below="@id/data_view_temperature"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
         <!-- COUNTRY NAME -->
         <TextView
             android:id="@+id/country_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Denmark"
+            android:text="@string/country_denmark"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:layout_below="@id/city_name"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/sub_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_weight="3"
         android:padding="10dp" >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
             <TableLayout
@@ -204,9 +208,11 @@
                             android:layout_alignParentRight="true"/>
                     </RelativeLayout>
                 </TableRow>
+
                 <TableRow
                     android:id="@+id/overview_sunriseset"
                     android:minHeight="60dp" >
+
                     <!-- Data View -->
                     <RelativeLayout
                         android:id="@+id/sunriseset_overview"

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -66,52 +67,6 @@ public class Settings extends Activity {
                 break;
         }
 
-
-//
-//        swRain.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                rain = isChecked;
-//            }
-//        });
-//
-//        swHumidity.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                humidity = isChecked;
-//            }
-//        });
-//
-//        swPressure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                pressure = isChecked;
-//            }
-//        });
-//
-//        swSunriseSet.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                sunriseSet = isChecked;
-//            }
-//        });
-
-//        rgGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-//                if (checkedId == R.id.metric_radio_button) {
-//                    unitSystem = UnitSystem.METRIC;
-//                    //main.setUnitSystem(UnitSystem.METRIC);
-//                } else if (checkedId == R.id.imperial_radio_button) {
-//                    unitSystem = UnitSystem.IMPERIAL;
-//                    //main.setUnitSystem(UnitSystem.IMPERIAL);
-//                } else {
-//                    unitSystem = UnitSystem.METRIC;
-//                    //main.setUnitSystem(UnitSystem.METRIC);
-//                }
-//            }
-//        });
-
         btManageLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 goToManageLocations();
@@ -139,7 +94,7 @@ public class Settings extends Activity {
         editor.putBoolean("sunriseset", swSunriseset.isChecked());
         editor.putBoolean("wind",swWind.isChecked());
         editor.putString("unit", getUnit().toString());
-
+        Log.d("tess", "onpPause()");
         // Commit the edits!
         editor.commit();
 

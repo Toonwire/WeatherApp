@@ -13,16 +13,16 @@
         android:background="#80000000"
         android:padding="10dp" >
 
-        <!--<DigitalClock-->
-            <!--android:id="@+id/settings_time_view"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textSize="46sp"-->
-            <!--android:text="@string/real_time"-->
-            <!--android:textColor="#FFFFFF"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentStart="true" />-->
+        <DigitalClock
+        android:id="@+id/settings_time_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="46sp"
+        android:text="@string/real_time"
+        android:textColor="#FFFFFF"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
         <Button
             android:id="@+id/settings_button"

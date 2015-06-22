@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -58,6 +59,12 @@ public class WeatherLocation extends Fragment {
     private static final String TAG_DAY = "day";
     private static final String TAG_COUNTRY = "country";
 
+    private static final String CLOUDY_COLOR = "#95B4C6";
+    private static final String DAWN_COLOR = "#63AED5";
+    private static final String SUNNY_COLOR = "#1E8BC3";
+    private static final String EVENING_COLOR = "#125275";
+    private static final String NIGHT_COLOR = "#0A293B";
+
     Map<String, String> countries = new HashMap<>();
 
     private int weatherID;
@@ -90,6 +97,7 @@ public class WeatherLocation extends Fragment {
     private TextView tvCity;
     private TextView tvCityLandscapeMode;
     private TextView tvCountry;
+    private TextView tvDate;
 
     //    private ImageView imTemperature;
     private ImageView imWindDirection;
@@ -116,7 +124,9 @@ public class WeatherLocation extends Fragment {
 
     DecimalFormat df = new DecimalFormat("#.00");
     DecimalFormat df1 = new DecimalFormat("#.0");
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); // the format of your date
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd"); // June 21
+    SimpleDateFormat dayFormat = new SimpleDateFormat("EEE");
 
     private UnitSystem settingsUnitSystem = UnitSystem.METRIC;
     private boolean settingsRain = false;
@@ -133,9 +143,10 @@ public class WeatherLocation extends Fragment {
     private TableRow overviewWind;
     private TableRow overviewSunRiseSet;
 
-    private String test;
+    private LinearLayout currentWeatherLayout;
+    private LinearLayout forecastWeatherLayout;
 
-    public WeatherLocation(String url, boolean rain, boolean humidity, boolean pressure, boolean wind, boolean sunriseSet, UnitSystem units, String test){
+    public WeatherLocation(String url, boolean rain, boolean humidity, boolean pressure, boolean wind, boolean sunriseSet, UnitSystem units){
         this.url = url;
         this.settingsRain = rain;
         this.settingsHumidity = humidity;
@@ -143,13 +154,11 @@ public class WeatherLocation extends Fragment {
         this.settingsWind = wind;
         this.settingsSunriseSet = sunriseSet;
         this.settingsUnitSystem = units;
-        this.test = test;
     }
 
-    public WeatherLocation(String url, UnitSystem units, String test){
+    public WeatherLocation(String url, UnitSystem units){
         this.url = url;
         this.settingsUnitSystem = units;
-        this.test = test;
     }
 
     public WeatherLocation(){
@@ -158,7 +167,7 @@ public class WeatherLocation extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("Tess", "onCreateView() " + test);
+        Log.d("Tess", "onCreateView()");
 
         if (container == null)
             return null;
@@ -169,7 +178,7 @@ public class WeatherLocation extends Fragment {
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            LinearLayout currentWeatherLayout = (LinearLayout) inflater.inflate(R.layout.current_weather, container, false);
+            currentWeatherLayout = (LinearLayout) inflater.inflate(R.layout.current_weather, container, false);
 
             tvTemperature = (TextView) currentWeatherLayout.findViewById(R.id.data_view_temperature);
             tvPressure = (TextView) currentWeatherLayout.findViewById(R.id.data_view_pressure);
@@ -180,6 +189,7 @@ public class WeatherLocation extends Fragment {
             tvRain = (TextView) currentWeatherLayout.findViewById(R.id.data_view_rain);
             tvCity = (TextView) currentWeatherLayout.findViewById(R.id.city_name);
             tvCountry = (TextView) currentWeatherLayout.findViewById(R.id.country_name);
+            tvDate = (TextView) currentWeatherLayout.findViewById(R.id.date_text);
 
             imPressure = (ImageView) currentWeatherLayout.findViewById(R.id.data_view_pressure_icon);
             imHumidity = (ImageView) currentWeatherLayout.findViewById(R.id.data_view_humidity_icon);
@@ -200,7 +210,7 @@ public class WeatherLocation extends Fragment {
             return currentWeatherLayout;
         }
 
-        LinearLayout forecastWeatherLayout = (LinearLayout) inflater.inflate(R.layout.forecast_weather, container, false);
+        forecastWeatherLayout = (LinearLayout) inflater.inflate(R.layout.forecast_weather, container, false);
 
         tvCityLandscapeMode = (TextView) forecastWeatherLayout.findViewById(R.id.city_name_landscape);
 
@@ -296,10 +306,10 @@ public class WeatherLocation extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-//            pDialog = new ProgressDialog(MainActivity.this);
-//            pDialog.setMessage("Please wait...");
-//            pDialog.setCancelable(false);
-//            pDialog.show();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
         }
 
         @Override
@@ -358,8 +368,8 @@ public class WeatherLocation extends Fragment {
             super.onPostExecute(result);
 
             // Dismiss the progress dialog
-//            if (pDialog.isShowing())
-//                pDialog.dismiss();
+            if (pDialog.isShowing())
+                pDialog.dismiss();
 
             // display current city of the 5-day forecast
             tvCityLandscapeMode.setText(city);
@@ -390,8 +400,6 @@ public class WeatherLocation extends Fragment {
         Date date = new Date(unixSeconds*1000L);
 
         String[] dateAndDay = new String[2];
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd"); // June 21
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE");
         dateAndDay[0] = dateFormat.format(date);
         dateAndDay[1] = dayFormat.format(date);
         return dateAndDay;
@@ -478,10 +486,10 @@ public class WeatherLocation extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-//            pDialog = new ProgressDialog(MainActivity.this);
-//            pDialog.setMessage("Please wait...");
-//            pDialog.setCancelable(false);
-//            pDialog.show();
+            pDialog = new ProgressDialog(getActivity());
+            pDialog.setMessage("Please wait...");
+            pDialog.setCancelable(false);
+            pDialog.show();
 
         }
 
@@ -542,19 +550,20 @@ public class WeatherLocation extends Fragment {
             super.onPostExecute(result);
 
             // Dismiss the progress dialog
-//            if (pDialog.isShowing())
-//                pDialog.dismiss();
+            if (pDialog.isShowing())
+                pDialog.dismiss();
+
             /**
              * Updating parsed JSON data into ListView
              * */
 
             long unixSeconds = Long.parseLong(sunrise);
             Date date = new Date(unixSeconds*1000L);
-            String sunriseTime = sdf.format(date);
+            String sunriseTime = timeFormat.format(date);
 
             unixSeconds = Long.parseLong(sunset);
             date = new Date(unixSeconds*1000L);
-            String sunsetTime = sdf.format(date);
+            String sunsetTime = timeFormat.format(date);
 
             if (countries.get(country) != null)
                 tvCountry.setText(countries.get(country));
@@ -569,6 +578,14 @@ public class WeatherLocation extends Fragment {
             tvTemperature.setText(getTemperatureAndUnit());
             tvPressure.setText(getPressureAndUnit());
             tvHumidity.setText(humidity + "%");
+            tvDate.setText(dayFormat.format(date) + " - " + dateFormat.format(date));     // Mon - Jun 22
+
+            if (Integer.parseInt(timeFormat.format(date).substring(0,3)) < 6)
+                currentWeatherLayout.setBackgroundColor(Color.parseColor(DAWN_COLOR));
+            else if (Integer.parseInt(timeFormat.format(date).substring(0,3)) > 18)
+                currentWeatherLayout.setBackgroundColor(Color.parseColor(EVENING_COLOR));
+            else if (Integer.parseInt(timeFormat.format(date).substring(0,3)) > 23)
+                currentWeatherLayout.setBackgroundColor(Color.parseColor(NIGHT_COLOR));
 
             imWindDirection.setRotation(Float.parseFloat(windDeg));
             imWeatherIcon.setImageBitmap(getWeatherIconBitmap(weatherID));
@@ -604,8 +621,14 @@ public class WeatherLocation extends Fragment {
      */
 
     public String getTemperatureAndUnit() {
-        if (settingsUnitSystem == UnitSystem.METRIC)
+        if (settingsUnitSystem == UnitSystem.METRIC) {
+            if (Double.parseDouble(temperature) > 60)
+                return df1.format((Double.parseDouble(temperature) - 273.15)) + "°C";
             return df1.format(Double.parseDouble(temperature)) + "°C";
+        }
+
+        if (Double.parseDouble(temperature) > 140)
+            return df1.format((Double.parseDouble(temperature) - 273.15) * 1.8 + 32)  + "°F";
         return df1.format(Double.parseDouble(temperature)) + "°F";
     }
 
@@ -616,9 +639,13 @@ public class WeatherLocation extends Fragment {
     }
 
     public String getTemperatureAndUnit(int i) {
-        Log.d("Temp", "i: " + i + "temp: " + temperatureForecast[i]);
-        if (settingsUnitSystem == UnitSystem.METRIC)
+        if (settingsUnitSystem == UnitSystem.METRIC) {
+            if (Double.parseDouble(temperatureForecast[i]) > 60)
+                return df1.format((Double.parseDouble(temperatureForecast[i]) - 273.15)) + "°C";
             return df1.format(Double.parseDouble(temperatureForecast[i])) + "°C";
+        }
+        if (Double.parseDouble(temperatureForecast[i]) > 140)
+            return df1.format((Double.parseDouble(temperatureForecast[i]) - 273.15) * 1.8 + 32)  + "°F";
         return df1.format(Double.parseDouble(temperatureForecast[i])) + "°F";
     }
 
@@ -686,8 +713,9 @@ public class WeatherLocation extends Fragment {
                 mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.mist);
                 break;
             case 800:
-                if (day())
+                if (day()) {
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.sun);
+                }
                 else
                     mBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.moon);
                 break;

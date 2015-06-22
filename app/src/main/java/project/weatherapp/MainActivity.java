@@ -14,12 +14,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class MainActivity extends FragmentActivity {
 
-
-
     private static String url;
-
 
     // Reference to the LocationManager and LocationListener
     private LocationManager locationManager;
@@ -39,6 +42,11 @@ public class MainActivity extends FragmentActivity {
 
     private Button settingsButton;
 
+    private ArrayList<Double> mLongitude = new ArrayList<>();
+    private ArrayList<Double> mLatitude = new ArrayList<>();
+
+    private String fileName = "locationsData.txt";
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         if (mPagerAdapter != null)
@@ -50,7 +58,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_main);
         Log.d("Tess", "onCreate()");
@@ -84,39 +91,53 @@ public class MainActivity extends FragmentActivity {
         loadSettings();
         Log.d("Tess", "onResume()");
 
+        mLongitude.clear();
+        mLatitude.clear();
 
+        if (getFileStreamPath(fileName).exists()){
+            try{
+                readFile();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
+        }
         mPagerAdapter = new PagerAdapter(this.getSupportFragmentManager());
 
         // Display last reading information
-//        if (location != null) {
-//            Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
-//
-//            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units=" + settingsUnitSystem.toString();
-//                mPagerAdapter.addFragment(new WeatherLocation(url, settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
-//            }
-//            else {
-//                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&cnt=5&mode=json" + "&units=" + settingsUnitSystem.toString();
-//                mPagerAdapter.addFragment(new WeatherLocation(url, settingsUnitSystem));
-//            }
-//        } else
-//            Log.i("TESTING", "No Initial Reading Available");
+        if (location != null) {
+            Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
+
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units=" + settingsUnitSystem.toString();
+                mPagerAdapter.addFragment(new WeatherLocation(url, settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
+            }
+            else {
+                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&cnt=5&mode=json" + "&units=" + settingsUnitSystem.toString();
+                mPagerAdapter.addFragment(new WeatherLocation(url, settingsUnitSystem));
+            }
+        } else
+            Log.i("TESTING", "No Initial Reading Available");
 
 
-        // LOAD SAVED LOCATIONS, USING TODAY WEATHER URL
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?q=London,uk&units=metric", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem, "Port1"));
-            mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?q=Helsingør,dk&units=metric", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem, "Port2"));
-            Log.d("Tess", "Portrait");
+        if (mLongitude.size() > 0 && mLatitude.size() > 0) {
+            // get all the saved locations and add them as fragments to the activity
+            for (int i = 0; i < mLongitude.size(); i++) {
+
+                // LOAD SAVED LOCATIONS, USING TODAY WEATHER URL
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&units=" + settingsUnitSystem + "&mode=json", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
+                    Log.d("Tess", "Portrait");
+                }
+
+                // LOAD SAVED LOCATIONS, USING FORECAST WEATHER URL
+                else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    Log.d("Tess", "Landscape start");
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&cnt=5" + "units=" + settingsUnitSystem + "&mode=json", settingsUnitSystem));
+                    Log.d("Tess", "Landscape");
+                }
+            }
         }
 
-        // LOAD SAVED LOCATIONS, USING FORECAST WEATHER URL
-        else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.d("Tess", "Landscape start");
-            mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?q=London,uk&mode=json&units=metric&cnt=5", settingsUnitSystem, "Land1"));
-            mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?q=Helsingør,denmark&mode=json&units=metric&cnt=5", settingsUnitSystem, "Land2"));
-            Log.d("Tess", "Landscape");
-        }
         pager = (ViewPager) findViewById(R.id.viewpager);
         pager.setAdapter(mPagerAdapter);
     }
@@ -144,5 +165,28 @@ public class MainActivity extends FragmentActivity {
                 settingsUnitSystem = UnitSystem.IMPERIAL;
                 break;
         }
+    }
+
+    private void readFile() throws IOException{
+        FileInputStream fis = openFileInput(fileName);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+        String line = br.readLine();
+
+        while (line != null){
+            String[] items = line.split(";");
+
+            String locationName = items[0];
+            double longitude = Double.parseDouble(items[1]);
+            double latitude = Double.parseDouble(items[2]);
+
+            mLongitude.add(longitude);
+            mLatitude.add(latitude);
+
+            line = br.readLine();
+        }
+
+        br.close();
+
     }
 }

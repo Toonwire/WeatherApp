@@ -75,7 +75,7 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/show_locations_in_add_location"
             android:text="@string/add_location_show_location"
