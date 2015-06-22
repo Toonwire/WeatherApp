@@ -45,17 +45,11 @@ public class AddLocationActivity extends ListActivity {
 
     private static String url;
     private String cityName;
-    private String fixedCityName;
-    private String address;
-    private double longitude;
-    private double latitude;
 
     ListView listView;
     LocationAdapter mAdapter;
     LinearLayout headerView;
 
-    private Button btShowLocations;
-    private Button btCloseAddLocation;
     private EditText etCityName;
     private ProgressDialog pDialog;
 
@@ -75,35 +69,39 @@ public class AddLocationActivity extends ListActivity {
 
         listView.addHeaderView(headerView);
 
-        btShowLocations = (Button) findViewById(R.id.show_locations_in_add_location);
-        btCloseAddLocation =(Button) findViewById(R.id.add_locations_close_button);
+        Button btShowLocations = (Button) findViewById(R.id.show_locations_in_add_location);
+        Button btCloseAddLocation = (Button) findViewById(R.id.add_locations_close_button);
         etCityName = (EditText) findViewById(R.id.city_name_input);
 
         btShowLocations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    cityName = etCityName.getText().toString();
 
-                    // Removing common url crashes
-                    cityName = cityName.replace(" ", "");
-                    cityName = cityName.replace("!","");
-                    cityName = cityName.replace("%","");
-                    cityName = cityName.replace("?","");
-                    cityName = cityName.replace("\"","");
+                // Get the entered location
+                cityName = etCityName.getText().toString();
 
-                    // Will crash if the user uses characters not allowed in url
+                // Removing common url crashes
+                cityName = cityName.replace(" ", "");
+                cityName = cityName.replace("!", "");
+                cityName = cityName.replace("%", "");
+                cityName = cityName.replace("?", "");
+                cityName = cityName.replace("\"", "");
 
-                    url = "http://maps.google.com/maps/api/geocode/json?address=" + cityName + "&sensor=false";
-                    locations.clear();
-                    mAdapter.notifyDataSetChanged();
-                    new GetAllLocations().execute();
-                } catch (Exception e){
-                    Toast.makeText(mContext,"Please don't do that",Toast.LENGTH_SHORT).show();
-                }
+                // Will crash if the user uses characters not allowed in url
+
+                url = "http://maps.google.com/maps/api/geocode/json?address=" + cityName + "&sensor=false";
+
+                // Clear the shown locations to show the new ones instead
+                locations.clear();
+
+                mAdapter.notifyDataSetChanged();
+
+                // Start downloading
+                new GetAllLocations().execute();
             }
         });
 
+        // Remove the possibility of making newlines in the textedit.
 
         etCityName.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -120,6 +118,8 @@ public class AddLocationActivity extends ListActivity {
                 }
             }
         });
+
+        // Go back to LocationsActivity
 
         btCloseAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,20 +139,6 @@ public class AddLocationActivity extends ListActivity {
 
         public LocationAdapter(Context applicationContext) {
             mContext = applicationContext;
-        }
-
-        public void add(Location item) {
-
-            locations.add(item);
-            notifyDataSetChanged();
-
-        }
-
-        public void clear() {
-
-            locations.clear();
-            notifyDataSetChanged();
-
         }
 
         @Override
@@ -175,12 +161,14 @@ public class AddLocationActivity extends ListActivity {
 
             final Location location = locations.get(position);
 
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(mContext.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
 
             RelativeLayout itemLayout = (RelativeLayout) inflater.inflate(R.layout.add_location_list,parent,false);
 
             final TextView nameView = (TextView) itemLayout.findViewById(R.id.location_item_another_string);
             nameView.setText(location.toString());
+
+            // choose a location and send it back to LocationsActivity
 
             Button btAddLocation = (Button) itemLayout.findViewById(R.id.location_add_this_location_btn);
             btAddLocation.setOnClickListener(new View.OnClickListener() {
@@ -218,9 +206,7 @@ public class AddLocationActivity extends ListActivity {
         }
     }
 
-    /**
-     * Async task class to get json by making HTTP call
-     * */
+    // AsyncTask to download the location from maps.google.com
 
     private class GetAllLocations extends AsyncTask<Void, Void, Void> {
 
@@ -256,16 +242,16 @@ public class AddLocationActivity extends ListActivity {
                     for(int i = 0; i < resultArray.length(); i++) {
                         Log.d("loop", resultArray.getString(i));
                         JSONObject object = resultArray.getJSONObject(i);
-                        address = object.getString(TAG_FORMATED_ADDRESS);
+                        String address = object.getString(TAG_FORMATED_ADDRESS);
                         Log.d("loop", "test1");
 
                         JSONObject location = object.getJSONObject(TAG_GEOMETRY).getJSONObject(TAG_LOCATION);
                         Log.d("loop", "test3");
 
-                        longitude = Double.parseDouble(location.getString(TAG_LONGITUDE));
+                        double longitude = Double.parseDouble(location.getString(TAG_LONGITUDE));
                         Log.d("loop", "test4");
 
-                        latitude = Double.parseDouble(location.getString(TAG_LATITUDE));
+                        double latitude = Double.parseDouble(location.getString(TAG_LATITUDE));
 
                         Log.d("loop","Before adding it");
 
@@ -299,14 +285,7 @@ public class AddLocationActivity extends ListActivity {
             }
 
             mAdapter.notifyDataSetChanged();
-
-            /**
-             * Updating parsed JSON data into ListView
-             * */
-
             
         }
-
     }
-    
 }

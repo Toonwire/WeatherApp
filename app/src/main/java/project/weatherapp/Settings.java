@@ -67,6 +67,7 @@ public class Settings extends Activity {
                 break;
         }
 
+
         btManageLocation.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 goToManageLocations();
@@ -116,7 +117,6 @@ public class Settings extends Activity {
     }
 
     public void goToManageLocations() {
-        // TODO start LocationsActivity with array of all locations
         Intent intent = new Intent(Settings.this, LocationsActivity.class);
         startActivity(intent);
     }

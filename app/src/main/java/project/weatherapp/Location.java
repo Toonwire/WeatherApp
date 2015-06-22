@@ -1,10 +1,5 @@
 package project.weatherapp;
 
-import android.content.Intent;
-
-/**
- * Created by Jesper on 18/06/15.
- */
 public class Location {
 
     private String mLocationName;
@@ -16,7 +11,6 @@ public class Location {
         this.mLongitude = longitude;
         this.mLatitude = latitude;
     }
-
 
     public String getLocationName() {
         return mLocationName;

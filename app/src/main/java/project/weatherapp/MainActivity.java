@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity {
 
@@ -37,15 +38,15 @@ public class MainActivity extends FragmentActivity {
     private boolean settingsWind = false;
     private boolean settingsSunriseSet = false;
 
+    private String fileName = "locationsData.txt";
+
+    private List<Double> mLongitude = new ArrayList<>();
+    private List<Double> mLatitude = new ArrayList<>();
+
     private PagerAdapter mPagerAdapter;
     private ViewPager pager;
 
     private Button settingsButton;
-
-    private ArrayList<Double> mLongitude = new ArrayList<>();
-    private ArrayList<Double> mLatitude = new ArrayList<>();
-
-    private String fileName = "locationsData.txt";
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_main);
         Log.d("Tess", "onCreate()");
