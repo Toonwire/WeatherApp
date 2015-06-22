@@ -165,6 +165,10 @@ public class WeatherLocation extends Fragment {
 
     }
 
+    public float getLongitude(String url){
+        return (float) Math.round(Double.parseDouble(url.split("lon=")[1].split("&")[0]));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("Tess", "onCreateView()");
@@ -392,6 +396,7 @@ public class WeatherLocation extends Fragment {
             Log.d("testingg", "Wind Speed: " + windSpeedForecast[0]);
             Log.d("testingg", "Wind Direction: " + windDirectionForecast[0]);
 
+
         }
 
     }
@@ -565,6 +570,13 @@ public class WeatherLocation extends Fragment {
             date = new Date(unixSeconds*1000L);
             String sunsetTime = timeFormat.format(date);
 
+            // ~ish times for color changes
+            long unixSecondsDifference = (int) (getLongitude(url) / 15) * 3600;  // 15 long = 1 hour
+            unixSeconds = Long.parseLong(dt) + unixSecondsDifference;
+
+            date = new Date(unixSeconds*1000L);
+            String realTime = timeFormat.format(date);
+
             if (countries.get(country) != null)
                 tvCountry.setText(countries.get(country));
             else
@@ -580,16 +592,17 @@ public class WeatherLocation extends Fragment {
             tvHumidity.setText(humidity + "%");
             tvDate.setText(dayFormat.format(date) + " - " + dateFormat.format(date));     // Mon - Jun 22
 
-            if (Integer.parseInt(timeFormat.format(date).substring(0,3)) < 6)
+            if (Integer.parseInt(realTime.substring(0,2)) < 6)
                 currentWeatherLayout.setBackgroundColor(Color.parseColor(DAWN_COLOR));
-            else if (Integer.parseInt(timeFormat.format(date).substring(0,3)) > 18)
+            else if (Integer.parseInt(realTime.substring(0,2)) > 18)
                 currentWeatherLayout.setBackgroundColor(Color.parseColor(EVENING_COLOR));
-            else if (Integer.parseInt(timeFormat.format(date).substring(0,3)) > 23)
+            else if (Integer.parseInt(realTime.substring(0,2)) > 23)
                 currentWeatherLayout.setBackgroundColor(Color.parseColor(NIGHT_COLOR));
 
             imWindDirection.setRotation(Float.parseFloat(windDeg));
             imWeatherIcon.setImageBitmap(getWeatherIconBitmap(weatherID));
 
+            Log.d("ala", imWeatherIcon.getDrawable().toString());
             Log.d("testing", "url: " + url);
             Log.d("testing", "Temperature: " + temperature);
             Log.d("testing", "Weather ID: " + weatherID);
@@ -757,4 +770,6 @@ public class WeatherLocation extends Fragment {
             return true;
         return Integer.parseInt(sunrise) < Integer.parseInt(dt) && Integer.parseInt(dt) < Integer.parseInt(sunset);
     }
+
+
 }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
     <Button
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/add_location"
+        android:background="#22313f"
         android:text="@string/add_location"
         android:layout_alignParentTop="true"
         android:textColor="#FFFFFF">

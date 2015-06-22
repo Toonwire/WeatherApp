@@ -127,14 +127,14 @@ public class MainActivity extends FragmentActivity {
 
                 // LOAD SAVED LOCATIONS, USING TODAY WEATHER URL
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&units=" + settingsUnitSystem + "&mode=json", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&units=" + settingsUnitSystem.toString() + "&mode=json", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
                     Log.d("Tess", "Portrait");
                 }
 
                 // LOAD SAVED LOCATIONS, USING FORECAST WEATHER URL
                 else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Log.d("Tess", "Landscape start");
-                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&cnt=5" + "units=" + settingsUnitSystem + "&mode=json", settingsUnitSystem));
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&cnt=5" + "&units=" + settingsUnitSystem.toString() + "&mode=json", settingsUnitSystem));
                     Log.d("Tess", "Landscape");
                 }
             }
@@ -142,6 +142,8 @@ public class MainActivity extends FragmentActivity {
 
         pager = (ViewPager) findViewById(R.id.viewpager);
         pager.setAdapter(mPagerAdapter);
+
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     public void loadSettings() {
