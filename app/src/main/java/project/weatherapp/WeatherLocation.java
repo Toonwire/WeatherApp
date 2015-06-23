@@ -314,6 +314,9 @@ public class WeatherLocation extends Fragment {
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
+
+            // if doInBackgrgound takes more than 15 seconds, make the conclusion
+            // that there is no internet connection and thus terminate the app and show a toast
         }
 
         @Override
@@ -633,6 +636,8 @@ public class WeatherLocation extends Fragment {
      * while the ones with the int parameter are used to get the forecast for the 5-day view.
      */
 
+    // To accomodate for default url units (Kelvin)
+    // an attempt to regulate high temperatures (60 degrees celcius and above) will be made
     public String getTemperatureAndUnit() {
         if (settingsUnitSystem == UnitSystem.METRIC) {
             if (Double.parseDouble(temperature) > 60)
