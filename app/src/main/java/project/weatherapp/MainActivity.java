@@ -24,6 +24,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     private static String url;
+    private final String API_KEY = "&APPID=API_key_goes_here";
 
     // Reference to the LocationManager and LocationListener
     private LocationManager locationManager;
@@ -60,7 +61,6 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_main);
         Log.d("Tess", "onCreate()");
         // Acquire reference to the LocationManager
@@ -73,6 +73,7 @@ public class MainActivity extends FragmentActivity {
         // Get best last location measurement
         location = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 
+        // only load settingsButton in portrait mode
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             settingsButton = (Button) findViewById(R.id.settings_button);
             settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +94,9 @@ public class MainActivity extends FragmentActivity {
         loadSettings();
         Log.d("Tess", "onResume()");
 
+
+        // can be optimized?
+        // No need to clear entire list and reload?
         mLongitude.clear();
         mLatitude.clear();
 
@@ -103,6 +107,9 @@ public class MainActivity extends FragmentActivity {
                 e.printStackTrace();
             }
         }
+
+        // optimize!? - No need to create a new PagerAdapter and re-add fragments
+        // should only be necessary to load new ones and delete chosen existing ones
         mPagerAdapter = new PagerAdapter(this.getSupportFragmentManager());
 
         // Display last reading information
@@ -110,31 +117,38 @@ public class MainActivity extends FragmentActivity {
             Log.i("TESTING", location.getLongitude() + " --- " + location.getLatitude());
 
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units=" + settingsUnitSystem.toString();
+                url = "http://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude()
+                        + "&lon=" + location.getLongitude() + "&units=" + settingsUnitSystem.toString()
+                        + API_KEY;
                 mPagerAdapter.addFragment(new WeatherLocation(url, settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
             }
             else {
-                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&cnt=5&mode=json" + "&units=" + settingsUnitSystem.toString();
+                url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude()
+                        + "&lon=" + location.getLongitude() + "&cnt=5&mode=json" + "&units=" + settingsUnitSystem.toString()
+                        + API_KEY;
                 mPagerAdapter.addFragment(new WeatherLocation(url, settingsUnitSystem));
             }
         } else
             Log.i("TESTING", "No Initial Reading Available");
 
-
+        // basically, if there are preset locations - load them
         if (mLongitude.size() > 0 && mLatitude.size() > 0) {
-            // get all the saved locations and add them as fragments to the activity
+            // load the locations and add them as fragments to the activity
             for (int i = 0; i < mLongitude.size(); i++) {
 
                 // LOAD SAVED LOCATIONS, USING TODAY WEATHER URL
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&units=" + settingsUnitSystem.toString() + "&mode=json", settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/weather?lat=" + mLatitude.get(i)
+                            + "&lon=" + mLongitude.get(i) + "&units=" + settingsUnitSystem.toString()
+                            + "&mode=json" + API_KEY, settingsRain, settingsHumidity, settingsPressure, settingsWind, settingsSunriseSet, settingsUnitSystem));
                     Log.d("Tess", "Portrait");
                 }
 
                 // LOAD SAVED LOCATIONS, USING FORECAST WEATHER URL
                 else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Log.d("Tess", "Landscape start");
-                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + mLatitude.get(i) + "&lon=" + mLongitude.get(i) + "&cnt=5" + "&units=" + settingsUnitSystem.toString() + "&mode=json", settingsUnitSystem));
+                    mPagerAdapter.addFragment(new WeatherLocation("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + mLatitude.get(i)
+                            + "&lon=" + mLongitude.get(i) + "&cnt=5" + "&units=" + settingsUnitSystem.toString() + "&mode=json" + API_KEY, settingsUnitSystem));
                     Log.d("Tess", "Landscape");
                 }
             }
@@ -178,7 +192,7 @@ public class MainActivity extends FragmentActivity {
         String line = br.readLine();
 
         while (line != null){
-            String[] items = line.split(";");
+            String[] items = line.split(";");           // each line has a string : "location ; longitude ; latitude"
 
             String locationName = items[0];
             double longitude = Double.parseDouble(items[1]);
